@@ -77,15 +77,7 @@ sed -i '/luci-app-homeproxy/d' ./.config
 
 provided_config_lines=(
 "CONFIG_PACKAGE_luci-app-ssr-plus=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_libustream-openssl=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Client=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Rust_Server=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Xray=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ChinaDNS_NG=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_MosDNS=y"
 "CONFIG_PACKAGE_luci-i18n-ssr-plus-zh-cn=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Simple_Obfs=y"
-"CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Libev_Client=y"
 "CONFIG_PACKAGE_luci-app-zerotier=y"
 "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
 "CONFIG_PACKAGE_luci-app-adguardhome=y"
@@ -94,6 +86,9 @@ provided_config_lines=(
 "CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
 "CONFIG_PACKAGE_luci-app-poweroff=y"
 "CONFIG_PACKAGE_luci-i18n-poweroff-zh-cn=y"
+"CONFIG_PACKAGE_cpufreq=y"
+"CONFIG_PACKAGE_luci-app-cpufreq=y"
+"CONFIG_PACKAGE_luci-i18n-cpufreq-zh-cn=y"
 )
 
 # Append lines to the .config file
