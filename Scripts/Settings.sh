@@ -104,3 +104,6 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$new_WRT_IP/g" $CFG_FILE
 sed -i "s/hostname='.*'/hostname='FishWRT'/g" $CFG_FILE
 #修改默认时区
 sed -i "/timezone='.*'/a\\\t\t\set system.@system[-1].zonename='Asia/Singapore'" $CFG_FILE
+
+./scripts/feeds update -a
+./scripts/feeds install -a
