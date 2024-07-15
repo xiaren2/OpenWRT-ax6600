@@ -72,6 +72,7 @@ sed -i '/cmiot_ax18/d' .config
 sed -i '/uugamebooster/d' ./.config
 #sed -i '/zerotier/d' ./.config
 sed -i '/autosamba/d' ./.config
+sed -i '/samba/d' ./.config
 sed -i '/luci-app-homeproxy/d' ./.config
 
 provided_config_lines=(
