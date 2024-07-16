@@ -89,6 +89,9 @@ provided_config_lines=(
 "CONFIG_PACKAGE_cpufreq=y"
 "CONFIG_PACKAGE_luci-app-cpufreq=y"
 "CONFIG_PACKAGE_luci-i18n-cpufreq-zh-cn=y"
+"CONFIG_PACKAGE_luci-app-ttyd=y"
+"CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y"
+"CONFIG_PACKAGE_ttyd=y"
 )
 
 # Append lines to the .config file
