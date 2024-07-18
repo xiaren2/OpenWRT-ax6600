@@ -56,7 +56,7 @@ fi
 
 
 #process .config file
-sed -i '/usb/d' .config
+#sed -i '/usb/d' .config
 sed -i '/passwall/d' .config
 sed -i '/v2ray/d' .config
 sed -i '/sing-box/d' .config
