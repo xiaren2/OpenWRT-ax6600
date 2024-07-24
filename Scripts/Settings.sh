@@ -77,9 +77,8 @@ keywords_to_delete=(
 )
 
 for line in "${keywords_to_delete[@]}"; do
-    sed -i '/$line/d' ./.config
+    sed -i "/$line/d" ./.config
 done
-
 
 
 provided_config_lines=(
