@@ -116,4 +116,4 @@ sed -i "/timezone='.*'/a\\\t\t\set system.@system[-1].zonename='Asia/Singapore'"
 ./scripts/feeds install -a
 
 rm -rf ../feeds/packages/net/shadowsocks-rust
-mv ../feeds/packages/ssr-plus/shadowsocks-rust ../feeds/packages/net/shadowsocks-rust
+mv ../feeds/packages/helloworld/shadowsocks-rust ../feeds/packages/net/shadowsocks-rust
