@@ -105,6 +105,9 @@ for line in "${provided_config_lines[@]}"; do
 done
 
 
+./scripts/feeds update -a
+./scripts/feeds install -a
+
 #rm -rf package/feeds/packages/shadowsocks-rust
 #cp -r package/helloworld/shadowsocks-rust package/feeds/packages/shadowsocks-rust
 find ./ -name "getifaddr.c" -exec sed -i 's/return 1;/return 0;/g' {} \;
