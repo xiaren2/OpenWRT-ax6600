@@ -87,6 +87,10 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-alist=y"
     "CONFIG_PACKAGE_luci-i18n-alist-zh-cn=y"
+    "CONFIG_PACKAGE_libminiupnpc=y"
+    "CONFIG_PACKAGE_luci-app-upnp=y"
+    "CONFIG_PACKAGE_luci-i18n-upnp-zh-cn=y"
+    "CONFIG_PACKAGE_miniupnpd-nftables=y"
 )
 
 [[ $WRT_TARGET == *"WIFI-NO"* ]] && provided_config_lines+=("CONFIG_PACKAGE_hostapd-common=n" "CONFIG_PACKAGE_wpad-openssl=n")
