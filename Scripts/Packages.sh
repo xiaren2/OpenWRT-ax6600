@@ -103,15 +103,15 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Mak
 
 #修复DDNSGO配置文件冲突
 DDNSGO_FILE=$(find ../feeds/packages/ ./ -maxdepth 3 -type f -wholename "*/luci-app-ddns-go/Makefile")
-if [ -f $DDNSGO_FILE ]; then
-	sed -i '/define Package\/\$(PKG_NAME)\/install/a \
-\ 	# Handling configuration conflicts \
-\ 	CONFIG_FILE="\$(1)/etc/config/ddns-go"; BACKUP_SUFFIX=".bak"; \
-\ 	if [ -f $$CONFIG_FILE ]; then \
-\ 		echo "Detected existing config file $$CONFIG_FILE. Backing up to $$CONFIG_FILE$$BACKUP_SUFFIX."; \
-\ 		mv $$CONFIG_FILE $$CONFIG_FILE$$BACKUP_SUFFIX; \
-\ 	fi \
-\ 	$(CP) ./files/etc/config/ddns-go \$(1)/etc/config/ddns-go' $DDNSGO_FILE
+if [ -f "$DDNSGO_FILE" ]; then
+	sed -i '/define Package\/$(PKG_NAME)\/install/a \
+	\	# Handling configuration conflicts \
+	\	CONFIG_FILE="\$(1)/etc/config/ddns-go"; \
+	\	if [ -f $$CONFIG_FILE ]; then \
+	\		echo "Detected existing config file $$CONFIG_FILE. Deleting it."; \
+	\		rm -f $$CONFIG_FILE; \
+	\	fi \
+	\	$(CP) ./files/etc/config/ddns-go \$(1)/etc/config/ddns-go' $DDNSGO_FILE
 
 	echo "ddns-go has been fixed!"
 fi
