@@ -105,7 +105,7 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Mak
 TS_FILE=$(find ../feeds/packages/ ./ -maxdepth 3 -type f -wholename "*/luci-app-ddns-go/Makefile")
 if [ -f "$TS_FILE" ]; then
 	sed -i '/\/config\/ddns-go/d' $TS_FILE
-	cd $PKG_PATCH && echo "ddns-go has been fixed!"
+	echo "ddns-go has been fixed!"
 fi
 
 
