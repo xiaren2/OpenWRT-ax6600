@@ -100,3 +100,12 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/applicatio
 mkdir -p parted && \
 wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O parted/Makefile
 
+
+#修复TailScale配置文件冲突
+TS_FILE=$(find ../feeds/packages/ ./ -maxdepth 3 -type f -wholename "*/luci-app-ddns-go/Makefile")
+if [ -f "$TS_FILE" ]; then
+	sed -i '/\/config\/ddns-go/d' $TS_FILE
+	cd $PKG_PATCH && echo "ddns-go has been fixed!"
+fi
+
+
