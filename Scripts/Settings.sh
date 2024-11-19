@@ -115,7 +115,7 @@ done
 #rm -rf package/feeds/packages/shadowsocks-rust
 #cp -r package/helloworld/shadowsocks-rust package/feeds/packages/shadowsocks-rust
 find ./ -name "getifaddr.c" -exec sed -i 's/return 1;/return 0;/g' {} \;
-find . -type d -name 'luci-app-ddns-go' -exec sh -c '[ -f "$1/Makefile" ] && sed -i "/config\/ddns-go/d" "$1/Makefile"' _ {} \;
+find ./ -type d -name 'luci-app-ddns-go' -exec sh -c '[ -f "$1/Makefile" ] && sed -i "/config\/ddns-go/d" "$1/Makefile"' _ {} \;
 
 
 
