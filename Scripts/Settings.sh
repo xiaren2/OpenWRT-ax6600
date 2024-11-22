@@ -112,12 +112,45 @@ done
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-#rm -rf package/feeds/packages/shadowsocks-rust
-#cp -r package/helloworld/shadowsocks-rust package/feeds/packages/shadowsocks-rust
+
 find ./ -name "getifaddr.c" -exec sed -i 's/return 1;/return 0;/g' {} \;
 #find ./ -type d -name 'luci-app-ddns-go' -exec sh -c '[ -f "$1/Makefile" ] && sed -i "/config\/ddns-go/d" "$1/Makefile"' _ {} \;
 #find ./ -type d -name "luci-app-ddns-go" -exec sh -c 'f="{}/Makefile"; [ -f "$f" ] && echo "\ndefine Package/\$(PKG_NAME)/install\n\trm -f \$(1)/etc/config/ddns-go\n\t\$(call InstallDev,\$(1))\nendef\n" >> "$f"' \;
-find ./ -type d -name "ddns-go" -exec sh -c 'f="{}/Makefile"; [ -f "$f" ] && sed -i "/\$(INSTALL_BIN).*\/ddns-go.init.*\/etc\/init.d\/ddns-go/d" "$f"' \;
+#find ./ -type d -name "ddns-go" -exec sh -c 'f="{}/Makefile"; [ -f "$f" ] && sed -i "/\$(INSTALL_BIN).*\/ddns-go.init.*\/etc\/init.d\/ddns-go/d" "$f"' \;
+find ./ -type d -name "luci-app-ddns-go" -exec sh -c '
+for dir; do
+  makefile="${dir}/Makefile"
+  if [ -f "$makefile" ]; then
+	echo "Found luci-app-ddns-go Makefile at $makefile"
+	if ! grep -q "^define Package/\$(PKG_NAME)/install" "$makefile"; then
+	  echo "Appending install definition to $makefile"
+	  echo "
+define Package/\$(PKG_NAME)/install
+	rm -f \$(1)/etc/config/ddns-go
+	\$(call InstallDev,\$(1))
+endef
+" >> "$makefile"
+	else
+	  echo "Install definition already present in $makefile"
+	fi
+  else
+	echo "No Makefile found in $dir"
+  fi
+done
+' sh {} +
+
+find ./ -type d -name "ddns-go" -exec sh -c '
+for dir; do
+  makefile="${dir}/Makefile"
+  if [ -f "$makefile" ]; then
+	echo "Found ddns-go Makefile at $makefile"
+	echo "Removing specific install command from $makefile"
+	sed -i "/\$(INSTALL_BIN).*\/ddns-go.init.*\/etc\/init.d\/ddns-go/d" "$makefile"
+  else
+	echo "No Makefile found in $dir"
+  fi
+done
+' sh {} +
 
 
 
