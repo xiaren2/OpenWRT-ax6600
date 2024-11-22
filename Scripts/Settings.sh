@@ -89,9 +89,25 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-upnp=y"
     "CONFIG_PACKAGE_luci-i18n-upnp-zh-cn=y"
     "CONFIG_PACKAGE_miniupnpd-nftables=y"
+    "CONFIG_BUSYBOX_CONFIG_LSUSB=n"
 )
 
-[[ $WRT_TARGET == *"WIFI-NO"* ]] && provided_config_lines+=("CONFIG_PACKAGE_hostapd-common=n" "CONFIG_PACKAGE_wpad-openssl=n")
+#[[ $WRT_TARGET == *"WIFI-NO"* ]] && provided_config_lines+=("CONFIG_PACKAGE_hostapd-common=n" "CONFIG_PACKAGE_wpad-openssl=n")
+if [[ $WRT_TAG == *"WIFI-NO"* ]]; then
+    provided_config_lines+=(
+        "CONFIG_PACKAGE_hostapd-common=n"
+        "CONFIG_PACKAGE_wpad-openssl=n"
+    )
+else
+    provided_config_lines+=(
+        "CONFIG_PACKAGE_kmod-usb-net=y"
+        "CONFIG_PACKAGE_kmod-usb-net-rndis=y"
+        "CONFIG_PACKAGE_kmod-usb-net-cdc-ether=y"
+        "CONFIG_PACKAGE_usbutils=y"
+    )
+fi
+
+
 [[ $WRT_TARGET == *"EMMC"* ]] && provided_config_lines+=(
     "CONFIG_PACKAGE_luci-app-diskman=y"
     "CONFIG_PACKAGE_luci-i18n-diskman-zh-cn=y"
@@ -119,40 +135,6 @@ find ./ -name "getifaddr.c" -exec sed -i 's/return 1;/return 0;/g' {} \;
 #find ./ -type d -name "ddns-go" -exec sh -c 'f="{}/Makefile"; [ -f "$f" ] && sed -i "/\$(INSTALL_BIN).*\/ddns-go.init.*\/etc\/init.d\/ddns-go/d" "$f"' \;
 rm -rf ./feeds/packages/net/ddns-go;
 
-find ./ -type d -name "luci-app-ddns-go" -exec sh -c '
-for dir; do
-  makefile="${dir}/Makefile"
-  if [ -f "$makefile" ]; then
-	echo "Found luci-app-ddns-go Makefile at $makefile"
-	if ! grep -q "^define Package/\$(PKG_NAME)/install" "$makefile"; then
-	  echo "Appending install definition to $makefile"
-	  echo "
-define Package/\$(PKG_NAME)/install
-	rm -f \$(1)/etc/config/ddns-go
-	\$(call InstallDev,\$(1))
-endef
-" >> "$makefile"
-	else
-	  echo "Install definition already present in $makefile"
-	fi
-  else
-	echo "No Makefile found in $dir"
-  fi
-done
-' sh {} +
-
-find ./ -type d -name "ddns-go" -exec sh -c '
-for dir; do
-  makefile="${dir}/Makefile"
-  if [ -f "$makefile" ]; then
-	echo "Found ddns-go Makefile at $makefile"
-	echo "Removing specific install command from $makefile"
-	sed -i "/\$(INSTALL_BIN).*\/ddns-go.init.*\/etc\/init.d\/ddns-go/d" "$makefile"
-  else
-	echo "No Makefile found in $dir"
-  fi
-done
-' sh {} +
 
 
 
