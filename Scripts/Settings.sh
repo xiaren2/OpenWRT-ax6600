@@ -98,7 +98,7 @@ if [[ $WRT_TAG == *"WIFI-NO"* ]]; then
         "CONFIG_PACKAGE_hostapd-common=n"
         "CONFIG_PACKAGE_wpad-openssl=n"
     )
-else
+#else
     #provided_config_lines+=(
     #    "CONFIG_PACKAGE_kmod-usb-net=y"
     #    "CONFIG_PACKAGE_kmod-usb-net-rndis=y"
