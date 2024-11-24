@@ -89,7 +89,7 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-upnp=y"
     "CONFIG_PACKAGE_luci-i18n-upnp-zh-cn=y"
     "CONFIG_PACKAGE_miniupnpd-nftables=y"
-    "CONFIG_BUSYBOX_CONFIG_LSUSB=n"
+    #"CONFIG_BUSYBOX_CONFIG_LSUSB=n"
 )
 
 #[[ $WRT_TARGET == *"WIFI-NO"* ]] && provided_config_lines+=("CONFIG_PACKAGE_hostapd-common=n" "CONFIG_PACKAGE_wpad-openssl=n")
@@ -99,12 +99,12 @@ if [[ $WRT_TAG == *"WIFI-NO"* ]]; then
         "CONFIG_PACKAGE_wpad-openssl=n"
     )
 else
-    provided_config_lines+=(
-        "CONFIG_PACKAGE_kmod-usb-net=y"
-        "CONFIG_PACKAGE_kmod-usb-net-rndis=y"
-        "CONFIG_PACKAGE_kmod-usb-net-cdc-ether=y"
-        "CONFIG_PACKAGE_usbutils=y"
-    )
+    #provided_config_lines+=(
+    #    "CONFIG_PACKAGE_kmod-usb-net=y"
+    #    "CONFIG_PACKAGE_kmod-usb-net-rndis=y"
+    #    "CONFIG_PACKAGE_kmod-usb-net-cdc-ether=y"
+    #    "CONFIG_PACKAGE_usbutils=y"
+    #)
 fi
 
 
