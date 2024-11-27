@@ -101,5 +101,10 @@ mkdir -p parted && \
 wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O parted/Makefile
 
 
+if [[ $WRT_SOURCE == *"lede"* ]]; then
+	UPDATE_PACKAGE "luci-theme-design" "ysuolmai/luci-theme-design" "js"
+fi
+
+
 
 
