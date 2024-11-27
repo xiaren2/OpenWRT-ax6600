@@ -51,6 +51,13 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
+
+if [[ $WRT_SOURCE == *"lede"* ]]; then
+	echo "CONFIG_PACKAGE_luci-theme-design=y" >> ./.config
+ 	echo "CONFIG_PACKAGE_luci-app-design-config=y" >> ./.config
+  	sed -i "/$WRT_THEME/d" ./.config
+fi
+
 #补齐依赖
 sudo -E apt-get -y install $(curl -fsSL is.gd/depends_ubuntu_2204)
 
