@@ -84,7 +84,7 @@ UPDATE_VERSION "sing-box"
 UPDATE_VERSION "tailscale"
 
 #DIY
-UPDATE_PACKAGE "luci-app-adguardhome" "ysuolmai/luci-app-adguardhome" "master"
+UPDATE_PACKAGE "luci-app-adguardhome" "ysuolmai/luci-app-adguardhome" "apk"
 UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "master"
 UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
