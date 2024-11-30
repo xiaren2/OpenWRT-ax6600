@@ -99,7 +99,7 @@ provided_config_lines=(
     #"CONFIG_BUSYBOX_CONFIG_LSUSB=n"
 )
 
-#[[ $WRT_TARGET == *"WIFI-NO"* ]] && provided_config_lines+=("CONFIG_PACKAGE_hostapd-common=n" "CONFIG_PACKAGE_wpad-openssl=n")
+[[ $WRT_TARGET == *"WIFI-NO"* ]] && provided_config_lines+=("CONFIG_PACKAGE_hostapd-common=n" "CONFIG_PACKAGE_wpad-openssl=n")
 if [[ $WRT_TAG == *"WIFI-NO"* ]]; then
     provided_config_lines+=(
         "CONFIG_PACKAGE_hostapd-common=n"
