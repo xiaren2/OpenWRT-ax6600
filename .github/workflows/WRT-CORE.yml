@@ -250,5 +250,5 @@ jobs:
             WIFI密码：${{env.WRT_WORD}}
 
             内核版本：${{env.WRT_KVER}}
-            插件列表：${{ join(github.event.inputs.WRT_LIST, '\n') }}
+            插件列表：${{ join(github.event.inputs.WRT_LIST.split('|'), '\n') }}
 
