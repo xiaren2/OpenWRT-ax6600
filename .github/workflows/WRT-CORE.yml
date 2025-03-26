@@ -205,6 +205,7 @@ jobs:
           if [[ $WRT_TEST != 'true' ]]; then
             KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d\.]+' {} \;)
             LIST=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^luci-app[^ ]*' {} \;)
+            LIST_SINGLE_LINE=$(echo "$LIST" | tr '\n' '|')
 
             find ./bin/targets/ -iregex ".*\(buildinfo\|json\|sha256sums\|packages\)$" -exec rm -rf {} +
 
@@ -221,7 +222,7 @@ jobs:
           fi
 
           echo "WRT_KVER=${KVER:-none}" >> $GITHUB_ENV
-          echo "WRT_LIST=${LIST:-none}" >> $GITHUB_ENV
+          echo "WRT_LIST=${LIST_SINGLE_LINE:-none}" >> $GITHUB_ENV
 
       - name: Release Information
         run: |
@@ -247,7 +248,7 @@ jobs:
           echo -e "WIFI密码：${{env.WRT_WORD}}" >> ./release.txt
           echo -e "" >> ./release.txt
           echo -e "内核版本：${{env.WRT_KVER}}" >> ./release.txt
-          echo -e "插件列表：\n${{env.WRT_LIST}}" >> ./release.txt
+          echo -e "插件列表：\n${{ env.WRT_LIST | replace('|', '\n') }}" >> ./release.txt
 
       - name: Release Firmware
         uses: softprops/action-gh-release@v2
