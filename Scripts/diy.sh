@@ -354,5 +354,12 @@ fi
 
 #sed -i 's/"admin\/services\/openlist"/"admin\/nas\/openlist"/' package/luci-app-openlist/luci-app-openlist/root/usr/share/luci/menu.d/luci-app-openlist.json
 
+RUST_FILE=$(find ../feeds/packages/ -maxdepth 3 -type f -wholename "*/rust/Makefile")
+if [ -f "$RUST_FILE" ]; then
+	echo " "
 
+	sed -i 's/ci-llvm=true/ci-llvm=false/g' $RUST_FILE
+
+	echo "rust has been fixed!"
+fi
 
