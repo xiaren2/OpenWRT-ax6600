@@ -362,6 +362,7 @@ sudo apt install -y build-essential subversion libncurses5-dev zlib1g-dev gawk g
 echo "清理并重新下载 Rust 源码..."
 rm -rf dl/rust-1.90.0.tar.xz
 rm -rf build_dir/host/rustc-1.90.0-src
+mkdir -p dl
 curl -o dl/rust-1.90.0.tar.xz https://static.rust-lang.org/dist/rustc-1.90.0-src.tar.xz
 echo "6bfeaddd90ffda2f063492b092bfed925c4b8c701579baf4b1316e021470daac  dl/rust-1.90.0.tar.xz" | sha256sum -c || { echo "Rust 源码校验失败"; exit 1; }
 make package/feeds/packages/rust/host/clean
