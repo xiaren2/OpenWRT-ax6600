@@ -353,43 +353,6 @@ fi
 
 #sed -i 's/"admin\/services\/openlist"/"admin\/nas\/openlist"/' package/luci-app-openlist/luci-app-openlist/root/usr/share/luci/menu.d/luci-app-openlist.json
 
-# 1. 安装 Rust 构建依赖
-echo "安装 Rust 构建依赖..."
-sudo apt update
-sudo apt install -y build-essential subversion libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc zip unzip python3 python3-distutils python3-setuptools curl pkg-config liblzma-dev
+#修复 rust 编译
+patch feeds/packages/lang/rust/Makefile ${GITHUB_WORKSPACE}/Scripts/rust-makefile.patch
 
-# 2. 清理 Rust 源码并重新下载
-echo "清理并重新下载 Rust 源码..."
-rm -rf dl/rust-1.90.0.tar.xz
-rm -rf build_dir/host/rustc-1.90.0-src
-mkdir -p dl
-curl -o dl/rust-1.90.0.tar.xz https://static.rust-lang.org/dist/rustc-1.90.0-src.tar.xz
-echo "6bfeaddd90ffda2f063492b092bfed925c4b8c701579baf4b1316e021470daac  dl/rust-1.90.0.tar.xz" | sha256sum -c || { echo "Rust 源码校验失败"; exit 1; }
-make package/feeds/packages/rust/host/clean
-
-# 3. 备份 serde 的 Cargo.toml.orig
-echo "备份 serde 的 Cargo.toml.orig..."
-mkdir -p build_dir/host/rustc-1.90.0-src
-tar -xJf dl/rust-1.90.0.tar.xz -C build_dir/host
-if [ -f build_dir/host/rustc-1.90.0-src/vendor/serde-1.0.215/Cargo.toml.orig ]; then
-    cp build_dir/host/rustc-1.90.0-src/vendor/serde-1.0.215/Cargo.toml.orig \
-       build_dir/host/rustc-1.90.0-src/vendor/serde-1.0.215/Cargo.toml.orig.bak
-else
-    echo "错误：Cargo.toml.orig 不存在于源码"
-    exit 1
-fi
-
-# 4. 更新 Feeds 并配置
-echo "更新 Feeds 并配置..."
-./scripts/feeds update -a
-./scripts/feeds install -a
-make defconfig
-
-# 5. 编译 Rust 主机包
-echo "编译 Rust 主机包..."
-make package/feeds/packages/rust/host/compile V=s || {
-    echo "Rust 编译失败，尝试恢复 Cargo.toml.orig..."
-    mv build_dir/host/rustc-1.90.0-src/vendor/serde-1.0.215/Cargo.toml.orig.bak \
-       build_dir/host/rustc-1.90.0-src/vendor/serde-1.0.215/Cargo.toml.orig 2>/dev/null
-    make package/feeds/packages/rust/host/compile V=s
-}
