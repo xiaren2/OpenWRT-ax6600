@@ -312,45 +312,6 @@ if [ -f ./package/luci-app-store/Makefile ]; then
 fi
 
 
-if [ -d "package/vlmcsd" ]; then
-    mkdir -p "package/vlmcsd/patches"
-    cp -f "${GITHUB_WORKSPACE}/Scripts/001-fix_compile_with_ccache.patch" "package/vlmcsd/patches"
-
-    MAKEFILE="package/vlmcsd/Makefile"
-    cp -f "${GITHUB_WORKSPACE}/Scripts/992_vlmcsd_init" "package/vlmcsd/files/vlmcsd.init"
-    chmod +x package/vlmcsd/files/vlmcsd.init
-    
-    # 如果 Makefile 存在且尚未包含 INSTALL_INIT_SCRIPT，则插入 init.d 安装逻辑
-    if [[ -f "$MAKEFILE" && ! $(grep -q "INSTALL_INIT_SCRIPT" "$MAKEFILE") ]]; then
-        echo "🛠 正在补丁 package/vlmcsd/Makefile 添加 init 脚本逻辑..."
-
-        awk '
-            BEGIN { in_block=0 }
-            {
-                if ($0 ~ /^define Package\/vlmcsd\/install/) {
-                    in_block = 1
-                }
-
-                if (in_block && $0 ~ /^endef/) {
-                    print "\t$(INSTALL_DIR) $(1)/etc/init.d"
-                    print "\t$(INSTALL_BIN) ./files/vlmcsd.init $(1)/etc/init.d/vlmcsd"
-                    in_block = 0
-                }
-
-                print
-            }
-        ' "$MAKEFILE" > "$MAKEFILE.tmp" && mv "$MAKEFILE.tmp" "$MAKEFILE"
-	echo "$MAKEFILE"
-        echo "✅ Makefile 补丁完成: 添加 init 脚本安装逻辑。"
-    else
-        echo "ℹ️ Makefile 已存在或已有 init 脚本安装逻辑，跳过。"
-    fi
-fi
-
-if [ -d "package/luci-app-vlmcsd" ]; then
-    find package/luci-app-vlmcsd -type f \( -name '*.js' -o -name '*.lua' -o -name '*.htm' \) -exec sed -i 's#/etc/vlmcsd.ini#/etc/vlmcsd/vlmcsd.ini#g' {} +
-fi
-
 #sed -i 's/"admin\/services\/openlist"/"admin\/nas\/openlist"/' package/luci-app-openlist/luci-app-openlist/root/usr/share/luci/menu.d/luci-app-openlist.json
 
 #修复 rust 编译
