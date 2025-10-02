@@ -349,3 +349,84 @@ if [ -f "$RUST_FILE" ]; then
 	
 	cd $PKG_PATH && echo "rust has been fixed!"
 fi
+
+
+# 修复 OpenWrt 包里不合规（非数字开头）的 PKG_VERSION，
+# 搜索范围：传入目录（默认 .）向下最多 3 层的所有 Makefile
+fix_openwrt_apk_versions() {
+  local ROOT="${1:-.}"
+  local MAX_DEPTH="${2:-3}"   # 可选：第二个参数可改最大深度，默认 3
+
+  log() { printf '[fix-apk] %s\n' "$*" >&2; }
+
+  process_file() {
+    local f="$1"
+
+    # 读取首个 PKG_VERSION
+    local line ver_raw
+    line="$(grep -m1 -E '^[[:space:]]*PKG_VERSION:=' "$f" || true)" || true
+    [[ -z "$line" ]] && return 0
+
+    ver_raw="$(sed -E 's/^[[:space:]]*PKG_VERSION:=[[:space:]]*//; s/[[:space:]]+$//' <<<"$line")"
+    ver_raw="${ver_raw%\"}"; ver_raw="${ver_raw#\"}"
+
+    # 已经是数字开头就无需修复
+    if [[ "$ver_raw" =~ ^[0-9] ]]; then
+      return 0
+    fi
+
+    # 提取数字（可含点）的第一段作为包版本
+    local ver_num
+    ver_num="$(grep -oE '[0-9]+([.][0-9]+)*' <<<"$ver_raw" | head -n1 || true)"
+    if [[ -z "$ver_num" ]]; then
+      log "WARN: $f 的 PKG_VERSION='$ver_raw' 无法提取数字，跳过。"
+      return 0
+    fi
+
+    log "修复 $f: PKG_VERSION '$ver_raw' -> '$ver_num'"
+    cp -n "$f" "$f.bak" 2>/dev/null || true
+
+    # 1) 替换首个 PKG_VERSION 为数字版本
+    sed -i -E "0,/^[[:space:]]*PKG_VERSION:=/ s//PKG_VERSION:=${ver_num}/" "$f"
+
+    # 2) 若无 PKG_SOURCE_VERSION，则在第一处 PKG_VERSION 行之后插入
+    if ! grep -qE '^[[:space:]]*PKG_SOURCE_VERSION:=' "$f"; then
+      awk -v raw="$ver_raw" '
+        BEGIN{added=0}
+        {
+          print $0
+          if (!added && $0 ~ /^[[:space:]]*PKG_VERSION:=/) {
+            print "PKG_SOURCE_VERSION:=" raw
+            added=1
+          }
+        }' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+    fi
+
+    # 3) 若无 PKG_BUILD_DIR，则在 PKG_SOURCE_VERSION 后面补一行
+    if ! grep -qE '^[[:space:]]*PKG_BUILD_DIR:=' "$f"; then
+      awk '
+        BEGIN{added=0}
+        {
+          print $0
+          if (!added && $0 ~ /^[[:space:]]*PKG_SOURCE_VERSION:=/) {
+            print "PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)"
+            added=1
+          }
+        }' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+    fi
+
+    # 4) 让 PKG_SOURCE / PKG_SOURCE_URL 里的 $(PKG_VERSION) 指向 $(PKG_SOURCE_VERSION)
+    sed -i -E '/^[[:space:]]*PKG_SOURCE:=/ s/\$\((PKG_VERSION)\)/$(PKG_SOURCE_VERSION)/g' "$f"
+    sed -i -E '/^[[:space:]]*PKG_SOURCE_URL:=/ s/\$\((PKG_VERSION)\)/$(PKG_SOURCE_VERSION)/g' "$f"
+  }
+
+  # 在 ROOT 下最多 3 层（或自定义 MAX_DEPTH）寻找所有 Makefile
+  while IFS= read -r -d '' mk; do
+    process_file "$mk"
+  done < <(find "$ROOT" -maxdepth "$MAX_DEPTH" -type f -name Makefile -print0)
+
+  log "扫描与修复完成。"
+}
+
+fix_openwrt_apk_versions ./package
+
