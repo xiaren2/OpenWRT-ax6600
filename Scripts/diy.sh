@@ -284,10 +284,10 @@ install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_set_argon_primary" "package/base-
 #解决 dropbear 配置的 bug
 install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_dropbear_setup.sh" "package/base-files/files/etc/uci-defaults/99_dropbear_setup"
 
-#if [[ "$WRT_CONFIG" == *"EMMC"* ]]; then
+if [[ "$WRT_CONFIG" == *"EMMC"* ]]; then
     #解决 nginx 的问题
-#    install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_nginx_setup.sh" "package/base-files/files/etc/uci-defaults/99_nginx_setup"
-#fi
+    install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_nginx_setup.sh" "package/base-files/files/etc/uci-defaults/99_nginx_setup"
+fi
 
 
 find ./ -name "getifaddr.c" -exec sed -i 's/return 1;/return 0;/g' {} \;
