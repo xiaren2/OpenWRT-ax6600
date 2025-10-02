@@ -55,7 +55,7 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
         taskd luci-lib-xterm luci-lib-taskd luci-app-ssr-plus luci-app-passwall2 \
         luci-app-store quickstart luci-app-quickstart luci-app-istorex luci-app-cloudflarespeedtest \
         luci-theme-argon netdata luci-app-netdata lucky luci-app-lucky luci-app-openclash mihomo \
-        luci-app-nikki luci-app-vlmcsd vlmcsd frp" "kenzok8/small-package" "main" "pkg"
+        luci-app-nikki luci-app-vlmcsd frp" "kenzok8/small-package" "main" "pkg"
 
 #speedtest
 UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sbwml/openwrt_pkgs.git" "main" "pkg"
@@ -311,30 +311,30 @@ if [ -f ./package/luci-app-store/Makefile ]; then
     sed -i -E 's/PKG_VERSION:=([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)/PKG_VERSION:=\1\nPKG_RELEASE:=\2/' ./package/luci-app-store/Makefile
 fi
 
-if [ -f ./package/vlmcsd/Makefile ]; then
-	MF=./package/vlmcsd/Makefile
-	
-	# 1) 把包版本号改为数字开头（1113），满足 APK 规范
-	sed -i -E 's/^(PKG_VERSION:=).*/\11113/' "$MF"
-	
-	# 2) 在 PKG_VERSION 行后插入源码版本变量和正确的构建目录
-	#    （保持下载/解压仍使用 svn1113）
-	awk '
-	  BEGIN{added=0}
-	  {
-	    print $0
-	    if ($0 ~ /^PKG_VERSION:=1113$/ && !added) {
-	      print "PKG_SOURCE_VERSION:=svn1113"
-	      print "PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)"
-	      added=1
-	    }
-	  }
-	' "$MF" > "$MF.tmp" && mv "$MF.tmp" "$MF"
-	
-	# 3) 让源码包名与下载 URL 使用 PKG_SOURCE_VERSION（仍为 svn1113）
-	sed -i -E 's#^(PKG_SOURCE:=)\$\(PKG_NAME\)-\$\((PKG_VERSION)\)\.tar\.gz#\1$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz#' "$MF"
-	sed -i -E 's#^(PKG_SOURCE_URL:=).*$#\1https://codeload.github.com/Wind4/vlmcsd/tar.gz/$(PKG_SOURCE_VERSION)?#' "$MF"
-fi
+#if [ -f ./package/vlmcsd/Makefile ]; then
+#	MF=./package/vlmcsd/Makefile
+#	
+#	# 1) 把包版本号改为数字开头（1113），满足 APK 规范
+#	sed -i -E 's/^(PKG_VERSION:=).*/\11113/' "$MF"
+#	
+#	# 2) 在 PKG_VERSION 行后插入源码版本变量和正确的构建目录
+#	#    （保持下载/解压仍使用 svn1113）
+#	awk '
+#	  BEGIN{added=0}
+#	  {
+#	    print $0
+#	    if ($0 ~ /^PKG_VERSION:=1113$/ && !added) {
+#	      print "PKG_SOURCE_VERSION:=svn1113"
+#	      print "PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)"
+#	      added=1
+#	    }
+#	  }
+#	' "$MF" > "$MF.tmp" && mv "$MF.tmp" "$MF"
+#	
+#	# 3) 让源码包名与下载 URL 使用 PKG_SOURCE_VERSION（仍为 svn1113）
+#	sed -i -E 's#^(PKG_SOURCE:=)\$\(PKG_NAME\)-\$\((PKG_VERSION)\)\.tar\.gz#\1$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz#' "$MF"
+#	sed -i -E 's#^(PKG_SOURCE_URL:=).*$#\1https://codeload.github.com/Wind4/vlmcsd/tar.gz/$(PKG_SOURCE_VERSION)?#' "$MF"
+#fi
 
 
 #sed -i 's/"admin\/services\/openlist"/"admin\/nas\/openlist"/' package/luci-app-openlist/luci-app-openlist/root/usr/share/luci/menu.d/luci-app-openlist.json
