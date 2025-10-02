@@ -428,5 +428,5 @@ fix_openwrt_apk_versions() {
   log "扫描与修复完成。"
 }
 
-fix_openwrt_apk_versions ./package
+fix_openwrt_apk_versions package
 
