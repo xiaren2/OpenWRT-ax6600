@@ -41,7 +41,7 @@ UPDATE_PACKAGE() {
 
 UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "master"
 UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
-UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
+#UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
 #UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
 UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
@@ -162,7 +162,7 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-tailscale=y"
     #"CONFIG_PACKAGE_luci-app-msd_lite=y"
     "CONFIG_PACKAGE_luci-app-lucky=y"
-    "CONFIG_PACKAGE_luci-app-gecoosac=y"
+    #"CONFIG_PACKAGE_luci-app-gecoosac=n"
 	"CONFIG_PACKAGE_kmod-wireguard=y"
     "CONFIG_PACKAGE_wireguard-tools=y"
 	"CONFIG_PACKAGE_luci-proto-wireguard=y"
