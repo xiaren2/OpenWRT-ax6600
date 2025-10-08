@@ -45,7 +45,7 @@ UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
 UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
-UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
+#UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 
 #small-package
 UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
@@ -54,7 +54,7 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
         luci-app-passwall v2dat \
         taskd luci-lib-xterm luci-lib-taskd luci-app-ssr-plus luci-app-passwall2 \
         quickstart luci-app-quickstart luci-app-cloudflarespeedtest \
-        luci-theme-argon netdata luci-app-netdata lucky luci-app-lucky luci-app-openclash mihomo \
+        luci-theme-argon netdata luci-app-netdata mihomo \
         luci-app-nikki frp" "kenzok8/small-package" "main" "pkg"
 
 #speedtest
@@ -79,8 +79,8 @@ UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 #DIY Settings
 #######################################
 WRT_IP="192.168.68.1"
-WRT_NAME="FWRT"
-WRT_WIFI="FWRT"
+WRT_NAME="OWRT"
+WRT_WIFI="OWRT"
 #修改immortalwrt.lan关联IP
 sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $(find ./feeds/luci/modules/luci-mod-system/ -type f -name "flash.js")
 
@@ -135,13 +135,13 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-poweroff=y"
     "CONFIG_PACKAGE_luci-i18n-poweroff-zh-cn=y"
     "CONFIG_PACKAGE_cpufreq=y"
-    "CONFIG_PACKAGE_luci-app-cpufreq=y"
-    "CONFIG_PACKAGE_luci-i18n-cpufreq-zh-cn=y"
+   # "CONFIG_PACKAGE_luci-app-cpufreq=y"
+  #  "CONFIG_PACKAGE_luci-i18n-cpufreq-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-ttyd=y"
     "CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y"
     "CONFIG_PACKAGE_ttyd=y"
-    "CONFIG_PACKAGE_luci-app-homeproxy=y"
-    "CONFIG_PACKAGE_luci-i18n-homeproxy-zh-cn=y"
+    #"CONFIG_PACKAGE_luci-app-homeproxy=y"
+  #  "CONFIG_PACKAGE_luci-i18n-homeproxy-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-ddns-go=y"
     "CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-argon-config=y"
@@ -161,7 +161,7 @@ provided_config_lines=(
     #"CONFIG_USE_APK=n"
     "CONFIG_PACKAGE_luci-app-tailscale=y"
     #"CONFIG_PACKAGE_luci-app-msd_lite=y"
-    "CONFIG_PACKAGE_luci-app-lucky=y"
+   # "CONFIG_PACKAGE_luci-app-lucky=y"
     #"CONFIG_PACKAGE_luci-app-gecoosac=n"
 	"CONFIG_PACKAGE_kmod-wireguard=y"
     "CONFIG_PACKAGE_wireguard-tools=y"
@@ -186,14 +186,14 @@ fi
 [[ $WRT_CONFIG == *"EMMC"* ]] && provided_config_lines+=(
     #"CONFIG_PACKAGE_luci-app-diskman=y"
     #"CONFIG_PACKAGE_luci-i18n-diskman-zh-cn=y"
-    "CONFIG_PACKAGE_luci-app-docker=m"
-    "CONFIG_PACKAGE_luci-i18n-docker-zh-cn=m"
-    "CONFIG_PACKAGE_luci-app-dockerman=m"
-    "CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=m"
+    "CONFIG_PACKAGE_luci-app-docker=y"
+    "CONFIG_PACKAGE_luci-i18n-docker-zh-cn=y"
+    "CONFIG_PACKAGE_luci-app-dockerman=y"
+    "CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y"
     #"CONFIG_PACKAGE_luci-app-podman=y"
     #"CONFIG_PACKAGE_podman=y"
-    "CONFIG_PACKAGE_luci-app-openlist2=y"
-    "CONFIG_PACKAGE_luci-i18n-openlist2-zh-cn=y"
+   # "CONFIG_PACKAGE_luci-app-openlist2=y"
+   # "CONFIG_PACKAGE_luci-i18n-openlist2-zh-cn=y"
     #"CONFIG_PACKAGE_fdisk=y"
     #"CONFIG_PACKAGE_parted=y"
     "CONFIG_PACKAGE_iptables-mod-extra=y"
@@ -235,19 +235,19 @@ fi
     "CONFIG_PACKAGE_kmod-dummy=y"
     "CONFIG_PACKAGE_kmod-veth=y"
     #"CONFIG_PACKAGE_automount=y"
-    "CONFIG_PACKAGE_luci-app-frps=y"
+  #  "CONFIG_PACKAGE_luci-app-frps=y"
     #"CONFIG_PACKAGE_luci-app-ssr-plus=y"
     #"CONFIG_PACKAGE_luci-app-passwall2=y"
     "CONFIG_PACKAGE_luci-app-samba4=y"
-    "CONFIG_PACKAGE_luci-app-openclash=y"
+   # "CONFIG_PACKAGE_luci-app-openclash=y"
     #"CONFIG_PACKAGE_luci-app-quickfile=y"
     #"CONFIG_PACKAGE_quickfile=y"
 )
 
 [[ $WRT_CONFIG == "IPQ"* ]] && provided_config_lines+=(
     "CONFIG_PACKAGE_sqm-scripts-nss=y"
-    "CONFIG_PACKAGE_luci-app-sqm=y"
-    "CONFIG_PACKAGE_luci-i18n-sqm-zh-cn=y"
+  #  "CONFIG_PACKAGE_luci-app-sqm=y"
+  #  "CONFIG_PACKAGE_luci-i18n-sqm-zh-cn=y"
 )
 
 # Append configuration lines to .config
