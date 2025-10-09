@@ -48,7 +48,7 @@ UPDATE_PACKAGE() {
 
 UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "main"
 UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
-UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
+#UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
 #UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
 UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
@@ -137,8 +137,8 @@ done
 
 # Configuration lines to append to .config
 provided_config_lines=(
-    "CONFIG_PACKAGE_luci-app-zerotier=y"
-    "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
+  #  "CONFIG_PACKAGE_luci-app-zerotier=y"
+  #  "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-adguardhome=n"
     "CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=n"
     "CONFIG_PACKAGE_luci-app-poweroff=y"
@@ -149,7 +149,7 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-ttyd=y"
     "CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y"
     "CONFIG_PACKAGE_ttyd=y"
-    "CONFIG_PACKAGE_luci-app-homeproxy=y"
+  #  "CONFIG_PACKAGE_luci-app-homeproxy=y"
   #  "CONFIG_PACKAGE_luci-i18n-homeproxy-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-ddns-go=y"
     "CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
