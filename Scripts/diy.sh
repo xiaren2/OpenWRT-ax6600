@@ -6,48 +6,56 @@ UPDATE_PACKAGE() {
 	local PKG_REPO=$2
 	local PKG_BRANCH=$3
 	local PKG_SPECIAL=$4
-
-	# 清理旧的包
-	read -ra PKG_NAMES <<< "$PKG_NAME"  # 将PKG_NAME按空格分割成数组
+	
+	# 清理旧的包(更精确的匹配)
+	read -ra PKG_NAMES <<< "$PKG_NAME"
 	for NAME in "${PKG_NAMES[@]}"; do
-		rm -rf $(find feeds/luci/ feeds/packages/ package/ -maxdepth 3 -type d -iname "*$NAME*" -prune)
+		# 使用更精确的匹配,避免误删
+		find feeds/luci/ feeds/packages/ package/ -maxdepth 3 -type d \( -name "$NAME" -o -name "luci-*-$NAME" \) -exec rm -rf {} + 2>/dev/null
 	done
-
+	
 	# 克隆仓库
 	if [[ $PKG_REPO == http* ]]; then
-		local REPO_NAME=$(echo $PKG_REPO | awk -F '/' '{gsub(/\.git$/, "", $NF); print $NF}')
-		git clone --depth=1 --single-branch --branch $PKG_BRANCH "$PKG_REPO" package/$REPO_NAME
+		local REPO_NAME=$(basename "$PKG_REPO" .git)
 	else
-		local REPO_NAME=$(echo $PKG_REPO | cut -d '/' -f 2)
-		git clone --depth=1 --single-branch --branch $PKG_BRANCH "https://github.com/$PKG_REPO.git" package/$REPO_NAME
+		local REPO_NAME=$(echo "$PKG_REPO" | cut -d '/' -f 2)
+		PKG_REPO="https://github.com/$PKG_REPO.git"
 	fi
-
+	
+	# 检查是否克隆成功
+	if ! git clone --depth=1 --single-branch --branch "$PKG_BRANCH" "$PKG_REPO" "package/$REPO_NAME"; then
+		echo "错误: 克隆仓库失败 $PKG_REPO"
+		return 1
+	fi
+	
 	# 根据 PKG_SPECIAL 处理包
 	case "$PKG_SPECIAL" in
 		"pkg")
-			# 提取每个包
 			for NAME in "${PKG_NAMES[@]}"; do
-				cp -rf $(find ./package/$REPO_NAME/*/ -maxdepth 3 -type d -iname "*$NAME*" -prune) ./package/
+				# 从仓库根目录搜索,不限制路径结构
+				find "./package/$REPO_NAME" -maxdepth 3 -type d \( -name "$NAME" -o -name "luci-*-$NAME" \) -print0 | \
+					xargs -0 -I {} cp -rf {} ./package/ 2>/dev/null
 			done
-			# 删除剩余的包
-			rm -rf ./package/$REPO_NAME/
+			rm -rf "./package/$REPO_NAME/"
 			;;
 		"name")
-			# 重命名包
-			mv -f ./package/$REPO_NAME ./package/$PKG_NAME
+			# 避免重命名冲突
+			rm -rf "./package/$PKG_NAME"
+			mv -f "./package/$REPO_NAME" "./package/$PKG_NAME"
 			;;
 	esac
 }
 
-UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "master"
+UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "main"
 UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
-#UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
+UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
 #UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
 UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
-#UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
+UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 #UPDATE_PACKAGE "rtp2httpd" "stackia/rtp2httpd" "main" "pkg"
 #UPDATE_PACKAGE "luci-app-rtp2httpd" "stackia/rtp2httpd" "main" "pkg"
+
 #small-package
 UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
         naiveproxy v2ray-core v2ray-geodata v2ray-geoview v2ray-plugin \
@@ -135,13 +143,13 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=n"
     "CONFIG_PACKAGE_luci-app-poweroff=y"
     "CONFIG_PACKAGE_luci-i18n-poweroff-zh-cn=y"
-    "CONFIG_PACKAGE_cpufreq=y"
-   # "CONFIG_PACKAGE_luci-app-cpufreq=y"
-  #  "CONFIG_PACKAGE_luci-i18n-cpufreq-zh-cn=y"
+   # "CONFIG_PACKAGE_cpufreq=y"
+  #  "CONFIG_PACKAGE_luci-app-cpufreq=y"
+    "CONFIG_PACKAGE_luci-i18n-cpufreq-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-ttyd=y"
     "CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y"
     "CONFIG_PACKAGE_ttyd=y"
-    #"CONFIG_PACKAGE_luci-app-homeproxy=y"
+    "CONFIG_PACKAGE_luci-app-homeproxy=y"
   #  "CONFIG_PACKAGE_luci-i18n-homeproxy-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-ddns-go=y"
     "CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
@@ -163,7 +171,7 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-tailscale=y"
     #"CONFIG_PACKAGE_luci-app-msd_lite=y"
    # "CONFIG_PACKAGE_luci-app-lucky=y"
-    #"CONFIG_PACKAGE_luci-app-gecoosac=n"
+   # "CONFIG_PACKAGE_luci-app-gecoosac=y"
 	"CONFIG_PACKAGE_kmod-wireguard=y"
     "CONFIG_PACKAGE_wireguard-tools=y"
 	"CONFIG_PACKAGE_luci-proto-wireguard=y"
@@ -189,14 +197,14 @@ fi
 [[ $WRT_CONFIG == *"EMMC"* ]] && provided_config_lines+=(
     #"CONFIG_PACKAGE_luci-app-diskman=y"
     #"CONFIG_PACKAGE_luci-i18n-diskman-zh-cn=y"
-    "CONFIG_PACKAGE_luci-app-docker=n"
-    "CONFIG_PACKAGE_luci-i18n-docker-zh-cn=n"
-    "CONFIG_PACKAGE_luci-app-dockerman=n"
-    "CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=n"
+    "CONFIG_PACKAGE_luci-app-docker=m"
+    "CONFIG_PACKAGE_luci-i18n-docker-zh-cn=m"
+    "CONFIG_PACKAGE_luci-app-dockerman=m"
+    "CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=m"
     #"CONFIG_PACKAGE_luci-app-podman=y"
     #"CONFIG_PACKAGE_podman=y"
    # "CONFIG_PACKAGE_luci-app-openlist2=y"
-   # "CONFIG_PACKAGE_luci-i18n-openlist2-zh-cn=y"
+ #   "CONFIG_PACKAGE_luci-i18n-openlist2-zh-cn=y"
     #"CONFIG_PACKAGE_fdisk=y"
     #"CONFIG_PACKAGE_parted=y"
     "CONFIG_PACKAGE_iptables-mod-extra=y"
@@ -238,18 +246,18 @@ fi
     "CONFIG_PACKAGE_kmod-dummy=y"
     "CONFIG_PACKAGE_kmod-veth=y"
     #"CONFIG_PACKAGE_automount=y"
-  #  "CONFIG_PACKAGE_luci-app-frps=y"
+ #   "CONFIG_PACKAGE_luci-app-frps=y"
     #"CONFIG_PACKAGE_luci-app-ssr-plus=y"
     #"CONFIG_PACKAGE_luci-app-passwall2=y"
     "CONFIG_PACKAGE_luci-app-samba4=y"
-   # "CONFIG_PACKAGE_luci-app-openclash=y"
+  #  "CONFIG_PACKAGE_luci-app-openclash=y"
     #"CONFIG_PACKAGE_luci-app-quickfile=y"
     #"CONFIG_PACKAGE_quickfile=y"
 )
 
 [[ $WRT_CONFIG == "IPQ"* ]] && provided_config_lines+=(
     "CONFIG_PACKAGE_sqm-scripts-nss=y"
-  #  "CONFIG_PACKAGE_luci-app-sqm=y"
+ #   "CONFIG_PACKAGE_luci-app-sqm=y"
   #  "CONFIG_PACKAGE_luci-i18n-sqm-zh-cn=y"
 )
 
@@ -309,35 +317,16 @@ if [ -f ./package/luci-app-quickstart/Makefile ]; then
     # 把 PKG_VERSION:=x.y.z-n 拆成 PKG_VERSION:=x.y.z 和 PKG_RELEASE:=n
     sed -i -E 's/PKG_VERSION:=([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)/PKG_VERSION:=\1\nPKG_RELEASE:=\2/' ./package/luci-app-quickstart/Makefile
 fi
-# if [ -f ./package/luci-app-store/Makefile ]; then
-#    # 把 PKG_VERSION:=x.y.z-n 拆成 PKG_VERSION:=x.y.z 和 PKG_RELEASE:=n
-#    sed -i -E 's/PKG_VERSION:=([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)/PKG_VERSION:=\1\nPKG_RELEASE:=\2/' ./package/luci-app-store/Makefile
-# fi
+if [ -f ./package/luci-app-store/Makefile ]; then
+    # 把 PKG_VERSION:=x.y.z-n 拆成 PKG_VERSION:=x.y.z 和 PKG_RELEASE:=n
+    sed -i -E 's/PKG_VERSION:=([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)/PKG_VERSION:=\1\nPKG_RELEASE:=\2/' ./package/luci-app-store/Makefile
+fi
 
-#if [ -f ./package/vlmcsd/Makefile ]; then
-#	MF=./package/vlmcsd/Makefile
-#	
-#	# 1) 把包版本号改为数字开头（1113），满足 APK 规范
-#	sed -i -E 's/^(PKG_VERSION:=).*/\11113/' "$MF"
-#	
-#	# 2) 在 PKG_VERSION 行后插入源码版本变量和正确的构建目录
-#	#    （保持下载/解压仍使用 svn1113）
-#	awk '
-#	  BEGIN{added=0}
-#	  {
-#	    print $0
-#	    if ($0 ~ /^PKG_VERSION:=1113$/ && !added) {
-#	      print "PKG_SOURCE_VERSION:=svn1113"
-#	      print "PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)"
-#	      added=1
-#	    }
-#	  }
-#	' "$MF" > "$MF.tmp" && mv "$MF.tmp" "$MF"
-#	
-#	# 3) 让源码包名与下载 URL 使用 PKG_SOURCE_VERSION（仍为 svn1113）
-#	sed -i -E 's#^(PKG_SOURCE:=)\$\(PKG_NAME\)-\$\((PKG_VERSION)\)\.tar\.gz#\1$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz#' "$MF"
-#	sed -i -E 's#^(PKG_SOURCE_URL:=).*$#\1https://codeload.github.com/Wind4/vlmcsd/tar.gz/$(PKG_SOURCE_VERSION)?#' "$MF"
-#fi
+if [ -f ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init ]; then
+    cp ${GITHUB_WORKSPACE}/Scripts/ddns-go.init ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init
+	chmod +x ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init
+	echo "ddns-go.init has been replaced successfully."
+fi
 
 
 #sed -i 's/"admin\/services\/openlist"/"admin\/nas\/openlist"/' package/luci-app-openlist/luci-app-openlist/root/usr/share/luci/menu.d/luci-app-openlist.json
@@ -432,4 +421,3 @@ fix_openwrt_apk_versions() {
 }
 
 fix_openwrt_apk_versions package
-
