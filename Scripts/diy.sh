@@ -1,37 +1,37 @@
 #!/bin/bash
 
 #安装和更新软件包
-UPDATE_PACKAGE() {
-	local PKG_NAME=$1
-	local PKG_REPO=$2
-	local PKG_BRANCH=$3
-	local PKG_SPECIAL=$4
+更新软件包() {
+	本地 PKG_NAME=$1PKG_NAME=$1
+	本地 PKG_REPO=$2PKG_REPO=$2
+	本地 PKG_BRANCH=$3PKG_BRANCH=$3
+	本地 PKG_SPECIAL=$4PKG_SPECIAL=$4
 	
-	# 清理旧的包(更精确的匹配)
-	read -ra PKG_NAMES <<< "$PKG_NAME"
-	for NAME in "${PKG_NAMES[@]}"; do
-		# 使用更精确的匹配,避免误删
-		find feeds/luci/ feeds/packages/ package/ -maxdepth 3 -type d \( -name "$NAME" -o -name "luci-*-$NAME" \) -exec rm -rf {} + 2>/dev/null
-	done
+	# 清理旧的包(更精确的匹配)# 清理旧的包(更精确的匹配)
+	读取 -ra PKG_NAMES << "$PKG_NAME"-ra PKG_NAMES <<< "$PKG_NAME"
+	对于 NAME 在 "${PKG_NAMES[@]}"; dofor NAME in "${PKG_NAMES[@]}"; do
+		# 使用更精确的匹配，避免误删# 使用更精确的匹配,避免误删
+		find feeds/luci/ feeds/packages/ package/ -maxdepth 3 -type d \( -name "$NAME" -o -name "luci-*-$NAME" \) -exec rm -rf {} + 2>/dev/null-maxdepth 3 -type d \( -name "$NAME" -o -name "luci-*-$NAME" \) -exec rm -rf {} + 2>/dev/null
+	完成done
 	
-	# 克隆仓库
-	if [[ $PKG_REPO == http* ]]; then
-		local REPO_NAME=$(basename "$PKG_REPO" .git)
-	else
-		local REPO_NAME=$(echo "$PKG_REPO" | cut -d '/' -f 2)
-		PKG_REPO="https://github.com/$PKG_REPO.git"
-	fi
+	# 克隆仓库# 克隆仓库
+	if [[ $PKG_REPO == http* ]]; thenif [[ $PKG_REPO == http* ]]; then
+		本地 REPO_NAME=$(basename \"$PKG_REPO\" .git)REPO_NAME=$(basename "$PKG_REPO" .git)
+	否则else
+		本地仓库名称=$(echo "$PKG_REPO" | cut -d '/' -f 2)REPO_NAME=$(echo "$PKG_REPO" | cut -d '/' -f 2)
+		PKG_REPO="https://github.com/$PKG_REPO.git"PKG_REPO="https://github.com/$PKG_REPO.git"
+	如果fi
 	
-	# 检查是否克隆成功
+	# 检查是否克隆成功# 检查是否克隆成功
 	if ! git clone --depth=1 --single-branch --branch "$PKG_BRANCH" "$PKG_REPO" "package/$REPO_NAME"; then
 		echo "错误: 克隆仓库失败 $PKG_REPO"
-		return 1
-	fi
+		返回 1
+	如果
 	
 	# 根据 PKG_SPECIAL 处理包
 	case "$PKG_SPECIAL" in
-		"pkg")
-			for NAME in "${PKG_NAMES[@]}"; do
+		"pkg"
+			对于 NAME 在 "${PKG_NAMES[@]}"; do
 				# 从仓库根目录搜索,不限制路径结构
 				find "./package/$REPO_NAME" -maxdepth 3 -type d \( -name "$NAME" -o -name "luci-*-$NAME" \) -print0 | \
 					xargs -0 -I {} cp -rf {} ./package/ 2>/dev/null
@@ -46,7 +46,7 @@ UPDATE_PACKAGE() {
 	esac
 }
 
-UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "main"
+#UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "main"
 UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
 #UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
@@ -141,8 +141,8 @@ provided_config_lines=(
   #  "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-adguardhome=n"
     "CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=n"
-    "CONFIG_PACKAGE_luci-app-poweroff=y"
-    "CONFIG_PACKAGE_luci-i18n-poweroff-zh-cn=y"
+   # "CONFIG_PACKAGE_luci-app-poweroff=y"
+  #  "CONFIG_PACKAGE_luci-i18n-poweroff-zh-cn=y"
    # "CONFIG_PACKAGE_cpufreq=y"
   #  "CONFIG_PACKAGE_luci-app-cpufreq=y"
     "CONFIG_PACKAGE_luci-i18n-cpufreq-zh-cn=y"
