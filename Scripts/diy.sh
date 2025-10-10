@@ -292,7 +292,7 @@ install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_set_argon_primary" "package/base-
 #package/emortal/default-settings/Makefile
 #sed -i "/exit 0/i\\
 
-#sed -i "/exit 0/i [ -f '/etc/99-distfeeds.conf' ] && mv '/etc/99-distfeeds.conf' '/etc/opkg/distfeeds.conf'\nsed -ri '/check_signature/s@^[^#]@#&@' /etc/opkg.conf" "package/emortal/default-settings/files/99-default-settings"
+sed -i "/exit 0/i [ -f '/etc/99-distfeeds.conf' ] && mv '/etc/99-distfeeds.conf' '/etc/opkg/distfeeds.conf'\nsed -ri '/check_signature/s@^[^#]@#&@' /etc/opkg.conf" "package/emortal/default-settings/files/99-default-settings"
 #解决 dropbear 配置的 bug
 install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_dropbear_setup.sh" "package/base-files/files/etc/uci-defaults/99_dropbear_setup"
 
