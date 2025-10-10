@@ -422,3 +422,17 @@ fix_openwrt_apk_versions() {
 }
 
 fix_openwrt_apk_versions package
+
+#---------------------------------------
+# 执行额外的第三方 OpenWrt 支持脚本
+#---------------------------------------
+EXTERNAL_SCRIPT_URL="https://raw.githubusercontent.com/stackia/rtp2httpd/main/openwrt-support/install.sh"
+EXTERNAL_SCRIPT_PATH="/tmp/install_rtp2httpd.sh"
+
+echo ">>> 正在下载并执行外部脚本: $EXTERNAL_SCRIPT_URL"
+if curl -fsSL "$EXTERNAL_SCRIPT_URL" -o "$EXTERNAL_SCRIPT_PATH"; then
+    chmod +x "$EXTERNAL_SCRIPT_PATH"
+    bash "$EXTERNAL_SCRIPT_PATH" || echo "⚠️ 外部脚本执行失败"
+else
+    echo "❌ 无法下载外部脚本: $EXTERNAL_SCRIPT_URL"
+fi
