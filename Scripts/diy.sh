@@ -423,16 +423,41 @@ fix_openwrt_apk_versions() {
 
 fix_openwrt_apk_versions package
 
-#---------------------------------------
-# 执行额外的第三方 OpenWrt 支持脚本
-#---------------------------------------
-EXTERNAL_SCRIPT_URL="https://raw.githubusercontent.com/stackia/rtp2httpd/main/openwrt-support/install.sh"
-EXTERNAL_SCRIPT_PATH="/tmp/install_rtp2httpd.sh"
+# ===============================
+# 集成 rtp2httpd 到 OpenWrt 构建
+# ===============================
+echo ">>> 集成 rtp2httpd 源码包..."
 
-echo ">>> 正在下载并执行外部脚本: $EXTERNAL_SCRIPT_URL"
-if curl -fsSL "$EXTERNAL_SCRIPT_URL" -o "$EXTERNAL_SCRIPT_PATH"; then
-    chmod +x "$EXTERNAL_SCRIPT_PATH"
-    bash "$EXTERNAL_SCRIPT_PATH" || echo "⚠️ 外部脚本执行失败"
+# 删除旧版本（防止重复）
+rm -rf package/rtp2httpd package/luci-app-rtp2httpd package/rtp2httpd-tmp
+
+# 克隆主项目
+if git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-tmp; then
+    SUPPORT_DIR="package/rtp2httpd-tmp/openwrt-support"
+
+    # 检查并移动两个子包
+    if [ -d "$SUPPORT_DIR/rtp2httpd" ] && [ -d "$SUPPORT_DIR/luci-app-rtp2httpd" ]; then
+        mv "$SUPPORT_DIR/rtp2httpd" package/rtp2httpd
+        mv "$SUPPORT_DIR/luci-app-rtp2httpd" package/luci-app-rtp2httpd
+        echo "✅ 已成功导入 rtp2httpd 与 luci-app-rtp2httpd"
+    else
+        echo "⚠️ 未找到 openwrt-support 目录下的完整包结构，请检查仓库"
+    fi
+
+    # 清理临时文件夹
+    rm -rf package/rtp2httpd-tmp
 else
-    echo "❌ 无法下载外部脚本: $EXTERNAL_SCRIPT_URL"
+    echo "❌ 克隆 rtp2httpd 仓库失败，请检查网络连接"
 fi
+
+# 自动写入 .config
+if [ -f ".config" ]; then
+    grep -q "^CONFIG_PACKAGE_rtp2httpd=y" .config || echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
+    grep -q "^CONFIG_PACKAGE_luci-app-rtp2httpd=y" .config || echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
+    echo "✅ 已启用 CONFIG_PACKAGE_rtp2httpd 与 luci-app-rtp2httpd"
+else
+    echo "⚠️ 未找到 .config 文件，跳过自动启用步骤"
+fi
+
+echo "🎉 rtp2httpd 集成完成，将在固件中自动编译。"
+
