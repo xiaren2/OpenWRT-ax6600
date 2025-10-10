@@ -428,36 +428,26 @@ fix_openwrt_apk_versions package
 # ===============================
 echo ">>> 集成 rtp2httpd 源码包..."
 
+# 确保 package 目录存在
+mkdir -p package
+
 # 删除旧版本（防止重复）
-rm -rf package/rtp2httpd package/luci-app-rtp2httpd package/rtp2httpd-tmp
+rm -rf package/rtp2httpd package/luci-app-rtp2httpd
 
 # 克隆主项目
-if git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-tmp; then
-    SUPPORT_DIR="package/rtp2httpd-tmp/openwrt-support"
+git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-tmp
 
-    # 检查并移动两个子包
-    if [ -d "$SUPPORT_DIR/rtp2httpd" ] && [ -d "$SUPPORT_DIR/luci-app-rtp2httpd" ]; then
-        mv "$SUPPORT_DIR/rtp2httpd" package/rtp2httpd
-        mv "$SUPPORT_DIR/luci-app-rtp2httpd" package/luci-app-rtp2httpd
-        echo "✅ 已成功导入 rtp2httpd 与 luci-app-rtp2httpd"
-    else
-        echo "⚠️ 未找到 openwrt-support 目录下的完整包结构，请检查仓库"
-    fi
+# 创建 rtp2httpd 目录
+mkdir -p package/rtp2httpd
 
-    # 清理临时文件夹
-    rm -rf package/rtp2httpd-tmp
-else
-    echo "❌ 克隆 rtp2httpd 仓库失败，请检查网络连接"
-fi
+# 复制完整源码（除了 openwrt-support）
+cp -r package/rtp2httpd-tmp/* package/rtp2httpd/
+rm -rf package/rtp2httpd/openwrt-support
 
-# 自动写入 .config
-if [ -f ".config" ]; then
-    grep -q "^CONFIG_PACKAGE_rtp2httpd=y" .config || echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
-    grep -q "^CONFIG_PACKAGE_luci-app-rtp2httpd=y" .config || echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
-    echo "✅ 已启用 CONFIG_PACKAGE_rtp2httpd 与 luci-app-rtp2httpd"
-else
-    echo "⚠️ 未找到 .config 文件，跳过自动启用步骤"
-fi
+# 将 luci 应用放入 package 目录
+mv package/rtp2httpd-tmp/openwrt-support/luci-app-rtp2httpd package/luci-app-rtp2httpd
 
-echo "🎉 rtp2httpd 集成完成，将在固件中自动编译。"
+# 清理临时目录
+rm -rf package/rtp2httpd-tmp
 
+echo "✅ rtp2httpd 已成功集成至源码包"
