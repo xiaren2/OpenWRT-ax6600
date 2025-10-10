@@ -423,31 +423,4 @@ fix_openwrt_apk_versions() {
 
 fix_openwrt_apk_versions package
 
-# ===============================
-# 集成 rtp2httpd 到 OpenWrt 构建
-# ===============================
-echo ">>> 集成 rtp2httpd 源码包..."
 
-# 确保 package 目录存在
-mkdir -p package
-
-# 删除旧版本（防止重复）
-rm -rf package/rtp2httpd package/luci-app-rtp2httpd
-
-# 克隆主项目
-git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-tmp
-
-# 创建 rtp2httpd 目录
-mkdir -p package/rtp2httpd
-
-# 复制完整源码（除了 openwrt-support）
-cp -r package/rtp2httpd-tmp/* package/rtp2httpd/
-rm -rf package/rtp2httpd/openwrt-support
-
-# 将 luci 应用放入 package 目录
-mv package/rtp2httpd-tmp/openwrt-support/luci-app-rtp2httpd package/luci-app-rtp2httpd
-
-# 清理临时目录
-rm -rf package/rtp2httpd-tmp
-
-echo "✅ rtp2httpd 已成功集成至源码包"
