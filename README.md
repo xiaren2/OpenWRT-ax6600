@@ -1,5 +1,5 @@
 来源 https://github.com/ysuolmai/OpenWRT-CI  ，请使用他的自行编译。
-下载EMMC的，不带EMMC是测试编译是否成功的。
+下载EMMC的，不带EMMC是我用来测试编译是否成功的。此为ax6600使用，未编译其他。
 
 
 # OpenWRT-CI
