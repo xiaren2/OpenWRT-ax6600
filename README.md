@@ -1,4 +1,5 @@
-来源 https://github.com/ysuolmai/OpenWRT-CI
+来源 https://github.com/ysuolmai/OpenWRT-CI  ，请使用他的自行编译。
+下载EMMC的，不带EMMC是测试编译是否成功的。
 
 
 # OpenWRT-CI
