@@ -286,8 +286,8 @@ install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_ttyd-nopass.sh" "package/base-fil
 
 install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_set_argon_primary" "package/base-files/files/etc/uci-defaults/99_set_argon_primary"
 
-#增加全局ULA
-install -Dm755 "${GITHUB_WORKSPACE}/Scripts/991_set-network.sh" "package/base-files/files/etc/uci-defaults/991_set-network"
+#增加全局ULA,测试失败
+#install -Dm755 "${GITHUB_WORKSPACE}/Scripts/991_set-network.sh" "package/base-files/files/etc/uci-defaults/991_set-network"
 
 #install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99-distfeeds.conf" "package/emortal/default-settings/files/99-distfeeds.conf"
 #sed -i '/define Package\/default-settings\/install/a \
