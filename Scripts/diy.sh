@@ -287,8 +287,8 @@ install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_ttyd-nopass.sh" "package/base-fil
 install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_set_argon_primary" "package/base-files/files/etc/uci-defaults/99_set_argon_primary"
 
 #增加全局ULA,测试失败
-install -Dm755 "${GITHUB_WORKSPACE}/Scripts/991_set-network.sh" "${GITHUB_WORKSPACE}/991_set-network.sh"
-bash "${GITHUB_WORKSPACE}/991_set-network.sh"
+install -Dm755 "${GITHUB_WORKSPACE}/Scripts/991_set-network.sh" "package/base-files/files/etc/uci-defaults/991_set-network"
+
 
 
 #修改软件源地址，当是opkg的时候
