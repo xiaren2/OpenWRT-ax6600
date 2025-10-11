@@ -1,27 +1,29 @@
-#!/bin/bash
-# 在构建阶段修改 package/base-files/files/etc/config/network 文件，为系统设置固定或随机 ULA
+#!/bin/sh
+# 强制为系统生成一个随机 ULA 前缀
 
-NETWORK_FILE="package/base-files/files/etc/config/network"
-
-if [ ! -f "$NETWORK_FILE" ]; then
-    echo "Error: $NETWORK_FILE not found!"
-    exit 1
-fi
-
-# 检查是否已有 ula_prefix
-if grep -q "option ula_prefix" "$NETWORK_FILE"; then
-    echo "ULA prefix already exists, skipping..."
+# 检查现有配置
+ula_prefix=$(uci get network.globals.ula_prefix 2>/dev/null)
+if [ -n "$ula_prefix" ]; then
     exit 0
 fi
 
-# 生成随机 ULA（fd00::/8）
+# 若无 globals 段则添加
+if ! uci get network.globals >/dev/null 2>&1; then
+    uci set network.globals=globals
+fi
+
+# 生成随机前缀（fd00::/8）
 random_hex=$(hexdump -n 5 -e '1/1 "fd%02x:"' /dev/urandom 2>/dev/null | sed 's/:$//')
 ula_prefix="${random_hex}::/48"
 
-# 插入到 globals 段
-sed -i "/config globals 'globals'/,/^$/{
-    /option ula_prefix/d
-    a\        option ula_prefix '${ula_prefix}'
-}" "$NETWORK_FILE"
+uci set network.globals.ula_prefix="$ula_prefix"
+uci commit network
 
-echo "✅ Added ULA prefix: ${ula_prefix} to $NETWORK_FILE"
+# 日志输出（方便调试）
+echo "Set ULA prefix to $ula_prefix" > /tmp/ula_log.txt
+logger -t set-ula "Set ULA prefix to $ula_prefix"
+
+# 可选：立即应用（非必要）
+[ -x /etc/init.d/network ] && /etc/init.d/network restart
+
+exit 0
