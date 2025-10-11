@@ -72,8 +72,6 @@ UPDATE_PACKAGE "quickfile" "sbwml/luci-app-quickfile" "main"
 UPDATE_PACKAGE "viking" "VIKINGYFY/packages" "main" "" "luci-app-timewol luci-app-wolplus"
 UPDATE_PACKAGE "vnt" "lmq8267/luci-app-vnt" "main"
 
-UPDATE_PACKAGE "rtp2httpd" "stackia/rtp2httpd" "main" "pkg/rtp2httpd"
-UPDATE_PACKAGE "luci-app-rtp2httpd" "stackia/rtp2httpd" "main" "pkg/luci-app-rtp2httpd"
 
 
 
