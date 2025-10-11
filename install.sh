@@ -14,7 +14,7 @@ NC='\033[0m' # No Color
 REPO_OWNER="stackia"
 REPO_NAME="rtp2httpd"
 GITHUB_API="https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}"
-GITHUB_RELEASE="https://bgithub.xya/${REPO_OWNER}/${REPO_NAME}/releases/download"
+GITHUB_RELEASE="https://bgithub.xyz/${REPO_OWNER}/${REPO_NAME}/releases/download"
 
 # 临时下载目录
 TMP_DIR="/tmp/rtp2httpd_install"
