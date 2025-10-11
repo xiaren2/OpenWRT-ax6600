@@ -1,21 +1,27 @@
-#!/bin/sh
+#!/bin/bash
+# 在构建阶段修改 package/base-files/files/etc/config/network 文件，为系统设置固定或随机 ULA
 
-# 检查 network.globals.ula_prefix 是否存在且不为空
-ula_prefix=$(uci get network.globals.ula_prefix 2>/dev/null)
+NETWORK_FILE="package/base-files/files/etc/config/network"
 
-if [ -z "$ula_prefix" ]; then
-    # 尝试生成随机的 ULA 前缀（fd00::/8）
-    random_ula_prefix=$(hexdump -n 5 -e '1/1 "fd%02x:"' /dev/urandom 2>/dev/null | sed 's/:$//')
-    
-    if [ -n "$random_ula_prefix" ]; then
-        # 如果成功生成随机 ULA，则使用它（格式如 fdXX:XXXX:XXXX::/48）
-        ula_prefix="${random_ula_prefix}::/48"
-    else
-        # 如果随机生成失败，则使用默认的 ULA 前缀
-        ula_prefix="fd32:f54e:36f7::/48"
-    fi
-
-    # 设置 ULA 前缀
-    uci set network.globals.ula_prefix="$ula_prefix"
-    uci commit network
+if [ ! -f "$NETWORK_FILE" ]; then
+    echo "Error: $NETWORK_FILE not found!"
+    exit 1
 fi
+
+# 检查是否已有 ula_prefix
+if grep -q "option ula_prefix" "$NETWORK_FILE"; then
+    echo "ULA prefix already exists, skipping..."
+    exit 0
+fi
+
+# 生成随机 ULA（fd00::/8）
+random_hex=$(hexdump -n 5 -e '1/1 "fd%02x:"' /dev/urandom 2>/dev/null | sed 's/:$//')
+ula_prefix="${random_hex}::/48"
+
+# 插入到 globals 段
+sed -i "/config globals 'globals'/,/^$/{
+    /option ula_prefix/d
+    a\        option ula_prefix '${ula_prefix}'
+}" "$NETWORK_FILE"
+
+echo "✅ Added ULA prefix: ${ula_prefix} to $NETWORK_FILE"
