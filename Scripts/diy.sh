@@ -224,7 +224,7 @@ fi
   #   "CONFIG_PACKAGE_kmod-nf-nat6=y"
  # "CONFIG_PACKAGE_iptables-mod-conntrack-extra=y"
  #    "CONFIG_PACKAGE_kmod-br-netfilter=y"
- 	 "CONFIG_PACKAGE_kmod-dummy=y"
+ 	# "CONFIG_PACKAGE_kmod-dummy=y"
  	"CONFIG_PACKAGE_kmod-veth=y"
 	
 	 # "CONFIG_PACKAGE_luci-app-openlist2=y"
