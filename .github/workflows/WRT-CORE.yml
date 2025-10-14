@@ -162,37 +162,6 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-#下载rtp2httpd开始
-      - name: Download External IPKs
-        run: |
-          mkdir -p ./wrt/package/external/
-
-          # 尝试通过 GitHub API 获取最新 tag
-          LATEST_TAG=$(curl -s --fail https://api.github.com/repos/ldm0206/rtp2httpd/releases/latest \
-                       | grep -Po '"tag_name": "\K.*?(?=")') || true
-
-          # 如果 API 失败，尝试从网页抓取
-          if [ -z "$LATEST_TAG" ]; then
-            echo "API failed, try parsing HTML page..."
-            LATEST_TAG=$(curl -s https://github.com/ldm0206/rtp2httpd/releases/latest \
-                         | grep -Po '/ldm0206/rtp2httpd/releases/tag/\K[^"]+' | head -n1)
-          fi
-
-          echo "Latest rtp2httpd version: $LATEST_TAG"
-
-          # 下载 ipk
-          curl -L -o ./wrt/package/external/luci-app-rtp2httpd_${LATEST_TAG}_all.ipk \
-               https://github.com/ldm0206/rtp2httpd/releases/download/$LATEST_TAG/luci-app-rtp2httpd_${LATEST_TAG}_all.ipk
-
-          curl -L -o ./wrt/package/external/luci-i18n-rtp2httpd-zh-cn_${LATEST_TAG}_all.ipk \
-               https://github.com/ldm0206/rtp2httpd/releases/download/$LATEST_TAG/luci-i18n-rtp2httpd-zh-cn_${LATEST_TAG}_all.ipk
-
-          curl -L -o ./wrt/package/external/rtp2httpd_${LATEST_TAG}-1_aarch64_cortex-a53.ipk \
-               https://github.com/ldm0206/rtp2httpd/releases/download/$LATEST_TAG/rtp2httpd_${LATEST_TAG}-1_aarch64_cortex-a53.ipk
-
-          # 将 ipk 加入 package 目录
-          cp ./wrt/package/external/*.ipk ./wrt/package/
-#下载rtp2httpd结束
 
       - name: Custom Packages
         run: |
