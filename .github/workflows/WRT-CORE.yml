@@ -161,45 +161,7 @@ jobs:
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-#下载ipk包开始
-      - name: Download Latest IPKs
-        run: |
-          cd ./wrt/package/
-          mkdir -p rtp2httpd
-          cd rtp2httpd
-          
-          # 获取最新版本号
-          LATEST_TAG=$(curl -s https://api.github.com/repos/ldm0206/rtp2httpd/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-          
-          if [ -z "$LATEST_TAG" ]; then
-            echo "Error: Failed to get latest version"
-            exit 1
-          fi
-          
-          echo "Downloading latest version: $LATEST_TAG"
-          
-          # 下载文件列表
-          FILES=(
-            "luci-app-rtp2httpd_${LATEST_TAG}_all.ipk"
-            "luci-i18n-rtp2httpd-zh-cn_${LATEST_TAG}_all.ipk"
-            "rtp2httpd_${LATEST_TAG}-1_aarch64_cortex-a53.ipk"
-          )
-          
-          # 逐个下载文件
-          for FILE in "${FILES[@]}"; do
-            echo "Downloading $FILE..."
-            if wget -q "https://github.com/ldm0206/rtp2httpd/releases/download/${LATEST_TAG}/${FILE}"; then
-              echo "✓ Downloaded $FILE"
-            else
-              echo "✗ Failed to download $FILE"
-            fi
-          done
-          
-          # 复制到 packages 目录
-          mkdir -p ../../bin/packages/
-          cp *.ipk ../../bin/packages/ 2>/dev/null || true
-          echo "IPK files copied to packages directory"
-#下载ipk包结束
+
 
       - name: Custom Packages
         run: |
