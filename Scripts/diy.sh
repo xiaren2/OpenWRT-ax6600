@@ -85,8 +85,17 @@ UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
 #rtp2httpd
-UPDATE_PACKAGE "rtp2httpd" "https://github.com/stackia/rtp2httpd" "main" "pkg"
-UPDATE_PACKAGE "luci-app-rtp2httpd" "https://github.com/stackia/rtp2httpd" "main" "pkg"
+# 先克隆整个仓库
+git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-repo
+
+# 然后手动复制需要的包
+cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
+cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
+
+# 清理临时仓库
+rm -rf package/rtp2httpd-repo
+
+
 
 #######################################
 #DIY Settings
