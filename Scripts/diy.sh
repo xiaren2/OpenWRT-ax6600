@@ -54,8 +54,7 @@ UPDATE_PACKAGE() {
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
 UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 
-#UPDATE_PACKAGE "rtp2httpd" "xiaren2/rtp2httpd" "main"
-#UPDATE_PACKAGE "luci-app-rtp2httpd" "xiaren2/luci-app-rtp2httpd" "main"
+
 
 #small-package
 UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
@@ -84,7 +83,9 @@ sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bi
 # bandix
 UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
-
+#rtp2httpd
+UPDATE_PACKAGE "rtp2httpd" "https://github.com/stackia/rtp2httpd/tree/main/openwrt-support" "main"  "pkg"
+UPDATE_PACKAGE "luci-app-rtp2httpd" "https://github.com/stackia/rtp2httpd/tree/main/openwrt-support" "main"  "pkg"
 
 #######################################
 #DIY Settings
@@ -180,8 +181,8 @@ provided_config_lines=(
   # "CONFIG_PACKAGE_luci-app-cifs-mount=y"
 	"CONFIG_PACKAGE_kmod-fs-cifs=y"
     "CONFIG_PACKAGE_cifsmount=y"
-#	"CONFIG_PACKAGE_rtp2httpd=y"
-	#"CONFIG_PACKAGE_luci-app-rtp2httpd=y"
+	"CONFIG_PACKAGE_rtp2httpd=y"
+	"CONFIG_PACKAGE_luci-app-rtp2httpd=y"
 )
 # 修改"CONFIG_USE_APK=n"和WRT-core里的，会将apk源替换为ipk，如用apk，opkg相关也应删除
 
