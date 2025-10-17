@@ -83,9 +83,10 @@ sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bi
 # bandix
 UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
+
 #rtp2httpd
-UPDATE_PACKAGE "rtp2httpd" "https://github.com/stackia/rtp2httpd/tree/main/openwrt-support" "main"  "pkg"
-UPDATE_PACKAGE "luci-app-rtp2httpd" "https://github.com/stackia/rtp2httpd/tree/main/openwrt-support" "main"  "pkg"
+UPDATE_PACKAGE "rtp2httpd" "https://github.com/stackia/rtp2httpd" "main" "pkg"
+UPDATE_PACKAGE "luci-app-rtp2httpd" "https://github.com/stackia/rtp2httpd" "main" "pkg"
 
 #######################################
 #DIY Settings
