@@ -84,16 +84,27 @@ sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bi
 UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
-#rtp2httpd
-# 先克隆整个仓库
-git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-repo
+# === 获取并准备 rtp2httpd 包 ===
+echo "::group::Fetching rtp2httpd and luci-app-rtp2httpd"
+TMP_DIR="package/rtp2httpd-tmp"
+rm -rf "$TMP_DIR"
+git clone --depth=1 https://github.com/stackia/rtp2httpd.git "$TMP_DIR"
 
-# 然后手动复制需要的包
-cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
-cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
+# 移动 openwrt-support 下的 2 个包到 package 根目录
+cp -r "$TMP_DIR/openwrt-support/rtp2httpd" package/
+cp -r "$TMP_DIR/openwrt-support/luci-app-rtp2httpd" package/
 
-# 清理临时仓库
-rm -rf package/rtp2httpd-repo
+# ✅ 关键修复点：
+# 把源码复制到 package/rtp2httpd/files/src 中，
+# 保证编译时 $(PKG_BUILD_DIR) 有完整源码可编译
+mkdir -p package/rtp2httpd/src
+cp -r "$TMP_DIR/src"/* package/rtp2httpd/src/
+cp "$TMP_DIR"/configure.ac "$TMP_DIR"/Makefile.am "$TMP_DIR"/aclocal.m4 2>/dev/null || true
+
+# 清理临时目录
+rm -rf "$TMP_DIR"
+echo "::endgroup::"
+
 
 
 
