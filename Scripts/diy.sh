@@ -85,12 +85,12 @@ UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
 # 先克隆整个仓库
-# git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-repo
+ git clone --depth=1 https://github.com/xiaren2/rtp2httpd.git package/rtp2httpd-repo
 # 然后手动复制需要的包
-# cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
-# cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
+ cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
+cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
 # 清理临时仓库
-# rm -rf package/rtp2httpd-repo
+ rm -rf package/rtp2httpd-repo
 
 
 
@@ -189,8 +189,8 @@ provided_config_lines=(
   # "CONFIG_PACKAGE_luci-app-cifs-mount=y"
 	"CONFIG_PACKAGE_kmod-fs-cifs=y"
     "CONFIG_PACKAGE_cifsmount=y"
-	#"CONFIG_PACKAGE_rtp2httpd=y"
-#	"CONFIG_PACKAGE_luci-app-rtp2httpd=y"
+	"CONFIG_PACKAGE_rtp2httpd=y"
+	"CONFIG_PACKAGE_luci-app-rtp2httpd=y"
 )
 # 修改"CONFIG_USE_APK=n"和WRT-core里的，会将apk源替换为ipk，如用apk，opkg相关也应删除
 
