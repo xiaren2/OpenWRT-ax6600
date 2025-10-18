@@ -84,14 +84,18 @@ sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bi
 UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
-# 先克隆整个仓库
-# git clone --depth=1 https://github.com/xiaren2/rtp2httpd.git package/rtp2httpd-repo
-# 然后手动复制需要的包
-# cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
-#cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
-# 清理临时仓库
-# rm -rf package/rtp2httpd-repo
+#rtp2httpd相关
+UPDATE_PACKAGE "rtp2httpd" "https://github.com/stackia/rtp2httpd" "main" "pkg"
+UPDATE_PACKAGE "luci-app-rtp2httpd" "https://github.com/stackia/rtp2httpd" "main" "pkg"
+# 替换 Makefile（如果需要）
+if [ -f "package/rtp2httpd/Makefile" ]; then
+    rm -f package/rtp2httpd/Makefile
+    cp -f ${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile package/rtp2httpd/Makefile
+fi
 
+echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
+echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
+echo "添加 rtp2httpd 流媒体转发服务器"
 
 
 
