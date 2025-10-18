@@ -202,8 +202,7 @@ provided_config_lines=(
   # "CONFIG_PACKAGE_luci-app-cifs-mount=y"
 	"CONFIG_PACKAGE_kmod-fs-cifs=y"
     "CONFIG_PACKAGE_cifsmount=y"
-#	"CONFIG_PACKAGE_rtp2httpd=y"
-#	"CONFIG_PACKAGE_luci-app-rtp2httpd=y"
+
 )
 # 修改"CONFIG_USE_APK=n"和WRT-core里的，会将apk源替换为ipk，如用apk，opkg相关也应删除
 
