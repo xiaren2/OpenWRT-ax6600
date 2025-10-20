@@ -86,21 +86,21 @@ UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
 # 添加rtp2httpd
 # 先克隆整个仓库
-git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-repo
+#git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-repo
 # 然后手动复制需要的包
-cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
-cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
+#cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
+#cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
 # 替换 Makefile（如果存在自定义的 Makefile）
-if [ -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" ]; then
-    echo "替换 rtp2httpd Makefile"
-    cp -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" package/rtp2httpd/Makefile
-fi
+#if [ -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" ]; then
+#    echo "替换 rtp2httpd Makefile"
+#    cp -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" package/rtp2httpd/Makefile
+#fi
 # 清理临时仓库
-rm -rf package/rtp2httpd-repo
+#rm -rf package/rtp2httpd-repo
 # 添加到编译配置
-echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
-echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
-echo "添加 rtp2httpd 流媒体转发服务器"
+#echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
+#echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
+#echo "添加 rtp2httpd 流媒体转发服务器"
 
 
 
@@ -312,7 +312,7 @@ install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_ttyd-nopass.sh" "package/base-fil
 install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_set_argon_primary" "package/base-files/files/etc/uci-defaults/99_set_argon_primary"
 
 # 增加全局ULA脚本
-install -Dm755 "${GITHUB_WORKSPACE}/Scripts/12_network-generate-ula" "package/base-files/files/etc/uci-defaults/12_network-generate-ula"
+#install -Dm755 "${GITHUB_WORKSPACE}/Scripts/12_network-generate-ula" "package/base-files/files/etc/uci-defaults/12_network-generate-ula"
 
 
 
