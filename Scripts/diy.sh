@@ -312,7 +312,7 @@ install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_ttyd-nopass.sh" "package/base-fil
 install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_set_argon_primary" "package/base-files/files/etc/uci-defaults/99_set_argon_primary"
 
 # 增加全局ULA脚本
-#install -Dm755 "${GITHUB_WORKSPACE}/Scripts/12_network-generate-ula" "package/base-files/files/etc/uci-defaults/12_network-generate-ula"
+install -Dm755 "${GITHUB_WORKSPACE}/Scripts/12_network-generate-ula" "package/base-files/files/etc/uci-defaults/12_network-generate-ula"
 
 
 
