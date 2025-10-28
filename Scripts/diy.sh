@@ -84,6 +84,8 @@ sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bi
 UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
+UPDATE_PACKAGE "luci-app-igmp" "xiaren2/luci-app-igmp" "main"
+
 # 添加rtp2httpd
 # 先克隆整个仓库
 git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-repo
