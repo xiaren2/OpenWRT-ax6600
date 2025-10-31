@@ -93,10 +93,10 @@ git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/rtp2httpd-r
 cp -r package/rtp2httpd-repo/openwrt-support/rtp2httpd package/
 cp -r package/rtp2httpd-repo/openwrt-support/luci-app-rtp2httpd package/
 # 替换 Makefile（如果存在自定义的 Makefile）
-if [ -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" ]; then
-    echo "替换 rtp2httpd Makefile"
-   cp -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" package/rtp2httpd/Makefile
-fi
+#if [ -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" ]; then
+ #   echo "替换 rtp2httpd Makefile"
+#   cp -f "${GITHUB_WORKSPACE}/patches/rtp2httpd/Makefile" package/rtp2httpd/Makefile
+#fi
 # 清理临时仓库
 rm -rf package/rtp2httpd-repo
 # 添加到编译配置
