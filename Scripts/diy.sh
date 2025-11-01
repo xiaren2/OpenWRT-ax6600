@@ -192,7 +192,6 @@ provided_config_lines=(
     "CONFIG_OPKG_USE_CURL=y"
    "CONFIG_PACKAGE_opkg=y"   
    "CONFIG_USE_APK=n"
-   "CONFIG_PACKAGE_apk-openssl=n"
    # "CONFIG_PACKAGE_luci-app-tailscale=y"
     #"CONFIG_PACKAGE_luci-app-msd_lite=y"
    # "CONFIG_PACKAGE_luci-app-lucky=y"
