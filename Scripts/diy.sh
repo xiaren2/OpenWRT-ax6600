@@ -49,7 +49,7 @@ UPDATE_PACKAGE() {
 # UPDATE_PACKAGE "luci-app-poweroff" "esirplayground/luci-app-poweroff" "main"
 #UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
-#UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
+UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
 #UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
 UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
@@ -70,7 +70,7 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
 UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sirpdboy/luci-app-netspeedtest.git" "main" "pkg"
 UPDATE_PACKAGE "speedtest-cli" "https://github.com/sirpdboy/luci-app-netspeedtest.git" "main" "pkg"
 
-UPDATE_PACKAGE "luci-app-adguardhome" "https://github.com/sirpdboy/luci-app-adguardhome.git" "main" "pkg"
+#UPDATE_PACKAGE "luci-app-adguardhome" "https://github.com/sirpdboy/luci-app-adguardhome.git" "main" "pkg"
 #UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #podman 类似docker
 UPDATE_PACKAGE "openwrt-podman" "https://github.com/breeze303/openwrt-podman" "main"
