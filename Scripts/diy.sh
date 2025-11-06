@@ -254,8 +254,9 @@ fi
  #   "CONFIG_PACKAGE_luci-i18n-openlist2-zh-cn=y"
     #"CONFIG_PACKAGE_fdisk=y"
     #"CONFIG_PACKAGE_parted=y"
-    "CONFIG_PACKAGE_luci-app-passwall=y"
-    "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y"
+	"CONFIG_PACKAGE_luci-app-homeproxy=y"
+#    "CONFIG_PACKAGE_luci-app-passwall=y"
+#    "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y"
     "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=y"
     "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Client=n"
     "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Simple_Obfs=n"
@@ -363,11 +364,12 @@ if [ -f ./package/luci-app-store/Makefile ]; then
     sed -i -E 's/PKG_VERSION:=([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)/PKG_VERSION:=\1\nPKG_RELEASE:=\2/' ./package/luci-app-store/Makefile
 fi
 
-if [ -f ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init ]; then
-    cp ${GITHUB_WORKSPACE}/Scripts/ddns-go.init ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init
-	chmod +x ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init
-	echo "ddns-go.init has been replaced successfully."
-fi
+#自定义的初始化脚本替换原来的脚本ddns-go
+#if [ -f ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init ]; then
+#    cp ${GITHUB_WORKSPACE}/Scripts/ddns-go.init ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init
+#	chmod +x ./package/luci-app-ddns-go/ddns-go/file/ddns-go.init
+#	echo "ddns-go.init has been replaced successfully."
+#fi
 
 
 #sed -i 's/"admin\/services\/openlist"/"admin\/nas\/openlist"/' package/luci-app-openlist/luci-app-openlist/root/usr/share/luci/menu.d/luci-app-openlist.json
