@@ -66,6 +66,9 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
         luci-theme-argon netdata luci-app-netdata mihomo \
         luci-app-nikki frp" "kenzok8/small-package" "main" "pkg"
 
+#luci-app-onliner
+UPDATE_PACKAGE "luci-app-onliner" "https://github.com/xuanranran/luci-app-onliner.git" "master"
+
 #speedtest
 #UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sbwml/openwrt_pkgs.git" "main" "pkg"
 #UPDATE_PACKAGE "speedtest-cli" "https://github.com/sbwml/openwrt_pkgs.git" "main" "pkg"
@@ -203,6 +206,7 @@ provided_config_lines=(
   # "CONFIG_PACKAGE_luci-app-cifs-mount=y"
 	"CONFIG_PACKAGE_kmod-fs-cifs=y"
     "CONFIG_PACKAGE_cifsmount=y"
+    "CONFIG_PACKAGE_luci-app-onliner=y"
 
 )
 # 修改"CONFIG_USE_APK=n"和WRT-core里的，会将apk源替换为ipk，如用apk，opkg相关也应删除
