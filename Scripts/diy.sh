@@ -67,8 +67,8 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
         luci-app-nikki frp" "kenzok8/small-package" "main" "pkg"
 
 #speedtest
-UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sirpdboy/luci-app-netspeedtest.git" "main" "pkg"
-UPDATE_PACKAGE "speedtest-cli" "https://github.com/sirpdboy/luci-app-netspeedtest.git" "main" "pkg"
+UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sirpdboy/luci-app-netspeedtest.git" "js" "pkg"
+UPDATE_PACKAGE "speedtest-cli" "https://github.com/sirpdboy/luci-app-netspeedtest.git" "js" "pkg"
 
 #UPDATE_PACKAGE "luci-app-adguardhome" "https://github.com/sirpdboy/luci-app-adguardhome.git" "main" "pkg"
 #UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
