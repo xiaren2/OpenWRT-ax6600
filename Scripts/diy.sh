@@ -468,3 +468,19 @@ fix_openwrt_apk_versions() {
 }
 
 fix_openwrt_apk_versions package
+#######################################
+# 禁用 AX6600 LAN/WAN LED 指示灯
+#######################################
+PATCH_FILE="${GITHUB_WORKSPACE}/Scripts/003-disable-phy-leds.patch"
+DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6010-re-cs-02.dts"
+
+if [ -f "$PATCH_FILE" ]; then
+    if [ -f "$DTS_FILE" ]; then
+        echo "🩵 正在应用 003-disable-phy-leds.patch 到 $DTS_FILE"
+        patch -p1 < "$PATCH_FILE" || echo "⚠️ 补丁已应用或应用失败！"
+    else
+        echo "⚠️ 未找到 DTS 文件，跳过 LED 禁用补丁。"
+    fi
+else
+    echo "⚠️ 未找到 LED 禁用补丁文件: $PATCH_FILE"
+fi
