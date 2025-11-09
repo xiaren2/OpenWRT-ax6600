@@ -162,7 +162,32 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-
+      - name: Fix libwebsockets CMake issue
+        run: |
+          cd ./wrt/
+          echo "修复 libwebsockets CMake 版本兼容性问题"
+          
+          # 查找 libwebsockets 的 CMakeLists.txt
+          find . -path "*/libwebsockets*/CMakeLists.txt" -type f | while read file; do
+            if [ -f "$file" ]; then
+              echo "修复文件: $file"
+              # 备份原文件
+              cp "$file" "$file.bak"
+              # 更新 CMake 最低版本要求
+              sed -i 's/cmake_minimum_required(VERSION [0-9]\+\.[0-9]\+)/cmake_minimum_required(VERSION 3.5)/g' "$file"
+              # 检查修改结果
+              echo "修改后内容:"
+              grep "cmake_minimum_required" "$file"
+            fi
+          done
+          
+          # 如果没有找到文件，显示提示
+          if [ $(find . -path "*/libwebsockets*/CMakeLists.txt" -type f | wc -l) -eq 0 ]; then
+            echo "未找到 libwebsockets 的 CMakeLists.txt 文件"
+            echo "当前存在的相关文件:"
+            find . -name "*libwebsocket*" -type f 2>/dev/null || echo "未找到相关文件"
+          fi
+          
       - name: Custom Packages
         run: |
           cd ./wrt/package/
