@@ -468,19 +468,52 @@ fix_openwrt_apk_versions() {
 }
 
 fix_openwrt_apk_versions package
+
+#!/bin/bash
+
 #######################################
-# 禁用 AX6600 LAN/WAN LED 指示灯
+# Disable AX6600 LAN/WAN LED lights (auto detect)
 #######################################
-PATCH_FILE="${GITHUB_WORKSPACE}/Scripts/003-disable-phy-leds.patch"
 DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6010-re-cs-02.dts"
 
-if [ -f "$PATCH_FILE" ]; then
-    if [ -f "$DTS_FILE" ]; then
-        echo "🩵 正在应用 003-disable-phy-leds.patch 到 $DTS_FILE"
-        patch -p1 < "$PATCH_FILE" || echo "⚠️ 补丁已应用或应用失败！"
-    else
-        echo "⚠️ 未找到 DTS 文件，跳过 LED 禁用补丁。"
-    fi
-else
-    echo "⚠️ 未找到 LED 禁用补丁文件: $PATCH_FILE"
+if [ ! -f "$DTS_FILE" ]; then
+    echo "⚠️  错误：找不到 DTS 文件: $DTS_FILE" >&2
+    exit 1
 fi
+
+echo "🩵 正在处理 $DTS_FILE ..."
+
+# 需要修改的PHY列表
+PHY_LIST="24 25 26 27 12"
+
+for PHY in $PHY_LIST; do
+    # 检查PHY节点是否存在
+    if ! grep -q "ethernet-phy@${PHY}" "$DTS_FILE"; then
+        echo "⚠️  警告：未找到 ethernet-phy@${PHY} 节点" >&2
+        continue
+    fi
+    
+    # 检查是否已禁用LED
+    if grep -A5 "ethernet-phy@${PHY}" "$DTS_FILE" | grep -q "qca,disable-phy-leds"; then
+        echo "✅ PHY ${PHY} LED已禁用"
+        continue
+    fi
+    
+    echo "🔧 正在为 PHY ${PHY} 添加 LED 禁用属性"
+    
+    # 更精确的sed修改（处理不同缩进格式）
+    sed -i "/ethernet-phy@${PHY}/,/^\s*};/ {
+        /reg = <${PHY}>;/ {
+            a \\\t\tqca,disable-phy-leds;
+        }
+    }" "$DTS_FILE"
+    
+    # 验证修改是否成功
+    if grep -A5 "ethernet-phy@${PHY}" "$DTS_FILE" | grep -q "qca,disable-phy-leds"; then
+        echo "👍 PHY ${PHY} 修改成功"
+    else
+        echo "❌ PHY ${PHY} 修改失败" >&2
+    fi
+done
+
+echo "✨ 处理完成"
