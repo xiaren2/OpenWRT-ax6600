@@ -192,6 +192,22 @@ jobs:
 
           make download -j$(nproc)
 
+      - name: Fix libwebsockets CMake issue
+        run: |
+          cd ./wrt/
+          echo "修复 libwebsockets CMake 版本兼容性问题"
+          
+          # 方法1：直接修改 CMakeLists.txt 文件
+          find package/feeds/packages/libwebsockets -name "CMakeLists.txt" | while read file; do
+            if [ -f "$file" ]; then
+              echo "修复文件: $file"
+              sed -i 's/cmake_minimum_required(VERSION [0-9]\+\.[0-9]\+)/cmake_minimum_required(VERSION 3.5)/g' "$file"
+              # 检查修改结果
+              grep "cmake_minimum_required" "$file"
+            fi
+          done
+          
+         
       - name: Compile Firmware
         if: env.WRT_TEST != 'true'
         run: |
