@@ -469,4 +469,7 @@ fix_openwrt_apk_versions() {
 
 fix_openwrt_apk_versions package
 
+# 🩹 修复 libwebsockets CMake 版本不兼容问题
+find feeds/packages/libs/libwebsockets/Makefile -exec sed -i '/CMAKE_OPTIONS/s/$/ -DCMAKE_POLICY_VERSION_MINIMUM=3.5/' {} \;
+
 
