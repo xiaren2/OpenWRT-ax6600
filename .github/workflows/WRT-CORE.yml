@@ -82,7 +82,14 @@ jobs:
           sudo mkdir -p /mnt/build_wrt
           sudo chown $USER:$USER /mnt/build_wrt
           sudo ln -s /mnt/build_wrt $GITHUB_WORKSPACE/wrt
-
+          
+      - name: Downgrade cmake (fix CMake <3.5 compatibility)
+        run: |
+          sudo apt-get update
+          sudo apt-get remove -y cmake
+          sudo apt-get install -y cmake=3.24.* cmake-data=3.24.* || \
+          sudo snap install cmake --channel=3.24/stable --classic
+          
       - name: Initialization Values
         run: |
           echo "WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d-%H.%M.%S")" >> $GITHUB_ENV
