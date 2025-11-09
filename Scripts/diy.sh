@@ -468,11 +468,3 @@ fix_openwrt_apk_versions() {
 }
 
 fix_openwrt_apk_versions package
-
-
-# 🩹 修复 CMake <3.5 不兼容问题
-find feeds/packages/libs -maxdepth 2 -name "CMakeLists.txt" -type f \
-  -exec grep -q "cmake_minimum_required" {} \; \
-  -exec sed -i '1s/^.*$/cmake_minimum_required(VERSION 3.5)/' {} \; \
-  -print
-
