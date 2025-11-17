@@ -1,19 +1,5 @@
 #!/bin/bash
 
-# 移除 luci-app-attendedsysupgrade
-echo "移除 luci-app-attendedsysupgrade..."
-ASU_DIR="feeds/luci/applications/luci-app-attendedsysupgrade"
-if [ -d "$ASU_DIR" ]; then
-    rm -rf "$ASU_DIR"
-    echo "✅ 已彻底移除 luci-app-attendedsysupgrade"
-    
-    # 同时从feeds索引中移除
-    if [ -f "feeds/luci.index" ]; then
-        sed -i '/luci-app-attendedsysupgrade/d' feeds/luci.index
-    fi
-else
-    echo "ℹ️ luci-app-attendedsysupgrade 目录不存在，无需移除"
-fi
 
 #安装和更新软件包
 UPDATE_PACKAGE() {
