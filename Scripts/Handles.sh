@@ -99,25 +99,12 @@ fi
 
 
 
-# 彻底移除attendedsysupgrade相关包
-echo "开始处理attendedsysupgrade移除..."
+#移除luci-app-attendedsysupgrade概览页面
+ASU_FILE=$(find ../feeds/luci/applications/luci-app-attendedsysupgrade/ -type f -name "11_upgrades.js")
+if [ -f "$ASU_FILE" ]; then
+	echo " "
 
-# 1. 删除源文件
-rm -rf "./feeds/luci/applications/luci-app-attendedsysupgrade" 2>/dev/null || true
-rm -rf "./feeds/packages/utils/attendedsysupgrade-common" 2>/dev/null || true
+	rm -rf $ASU_FILE
 
-# 2. 从索引文件中移除
-for index_file in feeds/luci.index feeds/packages.index; do
-    if [ -f "$index_file" ]; then
-        sed -i '/attendedsysupgrade/d' "$index_file"
-    fi
-done
-
-# 3. 清理可能的缓存
-rm -rf ./tmp/info/ 2>/dev/null || true
-
-# 4. 确保.config设置（虽然可能不生效，但作为备用）
-echo "CONFIG_PACKAGE_luci-app-attendedsysupgrade=n" >> .config
-echo "CONFIG_PACKAGE_attendedsysupgrade-common=n" >> .config
-
-echo "attendedsysupgrade已彻底移除"
+	cd $PKG_PATH && echo "attendedsysupgrade has been fixed!"
+fi
