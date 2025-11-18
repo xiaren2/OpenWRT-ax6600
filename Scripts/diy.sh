@@ -3,19 +3,19 @@
 # 第一步：预处理，排除attendedsysupgrade
 echo "=== 预处理：配置feeds排除attendedsysupgrade ==="
 
-# 方法1：修改feeds配置
-if [ -f "feeds.conf.default" ]; then
-    echo "修改feeds.conf.default排除attendedsysupgrade..."
-    # 为luci feed添加排除参数
-    sed -i 's|src-git luci https://github.com/|src-git luci https://github.com/^attendedsysupgrade |' feeds.conf.default 2>/dev/null || true
-fi
+# 强力删除attendedsysupgrade相关包
+echo "删除attendedsysupgrade相关包..."
+rm -rf "feeds/luci/applications/luci-app-attendedsysupgrade" 2>/dev/null || true
+rm -rf "feeds/packages/utils/attendedsysupgrade-common" 2>/dev/null || true
 
-# 方法2：如果feeds目录已存在，直接删除相关包
-if [ -d "feeds/luci/applications/luci-app-attendedsysupgrade" ]; then
-    echo "删除已存在的attendedsysupgrade目录..."
-    rm -rf feeds/luci/applications/luci-app-attendedsysupgrade
-    rm -rf feeds/packages/utils/attendedsysupgrade-common
-fi
+# 从索引文件中移除
+for index_file in feeds/luci.index feeds/packages.index; do
+    if [ -f "$index_file" ]; then
+        sed -i '/attendedsysupgrade/d' "$index_file" 2>/dev/null || true
+    fi
+done
+
+echo "attendedsysupgrade预处理完成"
 
 #安装和更新软件包
 UPDATE_PACKAGE() {
