@@ -1,5 +1,65 @@
 #!/bin/bash
+############################################
+# 删除系统自带 omcproxy 并添加自定义版本
+############################################
 
+echo "🗑 删除系统自带的 omcproxy 与 luci-app-omcproxy …"
+
+find feeds/ -maxdepth 4 -type d -name "omcproxy" -exec rm -rf {} + 2>/dev/null
+find package/ -maxdepth 4 -type d -name "omcproxy" -exec rm -rf {} + 2>/dev/null
+
+echo "📦 添加 GitHub: openwrt/omcproxy 到 package/omcproxy"
+
+rm -rf package/omcproxy
+git clone --depth=1 https://github.com/openwrt/omcproxy.git package/omcproxy
+
+# 如果仓库里没有 CMakeLists 说明你发的代码版本不同
+if [ ! -f package/omcproxy/CMakeLists.txt ]; then
+    echo "❌ 错误：omcproxy 仓库缺少 CMakeLists.txt，请检查版本！"
+    exit 1
+fi
+
+# 自动生成 OpenWrt Makefile
+cat > package/omcproxy/Makefile << "EOF"
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=omcproxy
+PKG_VERSION:=git
+PKG_RELEASE:=1
+
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/openwrt/omcproxy.git
+PKG_SOURCE_VERSION:=HEAD
+PKG_MIRROR_HASH:=skip
+
+PKG_LICENSE:=BSD-3-Clause
+PKG_MAINTAINER:=OpenWrt Developers Team
+
+PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)
+
+include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/cmake.mk
+
+define Package/omcproxy
+  SECTION:=net
+  CATEGORY:=Network
+  TITLE:=Multicast proxy daemon (custom)
+  DEPENDS:=+libpthread
+endef
+
+define Package/omcproxy/install
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/omcproxy $(1)/usr/sbin/
+endef
+
+$(eval $(call BuildPackage,omcproxy))
+EOF
+
+echo "✔ 已成功添加自定义 omcproxy（GitHub 最新版本）"
+
+# 自动加入到编译配置
+echo "CONFIG_PACKAGE_omcproxy=y" >> .config
+echo "CONFIG_PACKAGE_luci-app-omcproxy=y" >> .config
 
 
 #安装和更新软件包
