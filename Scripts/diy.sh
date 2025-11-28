@@ -208,6 +208,7 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-onliner=y"
     "CONFIG_PACKAGE_luci-theme-bootstrap=y"
 	 "CONFIG_PACKAGE_luci-app-tcpdump=y"
+	 "CONFIG_PACKAGE_luci-app-tcpdump-zh-cn=y"
 )
 # 修改"CONFIG_USE_APK=n"和WRT-core里的，会将apk源替换为ipk，如用apk，opkg相关也应删除
 
