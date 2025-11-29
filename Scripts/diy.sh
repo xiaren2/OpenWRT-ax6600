@@ -68,7 +68,7 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
 
 #luci-app-onliner
 UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
-UPDATE_PACKAGE "luci-app-tcpdump" "https://github.com/NueXini/NueXini_Packages.git" "main" "pkg"
+UPDATE_PACKAGE "luci-app-tcpdump" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
 #speedtest
 #UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sbwml/openwrt_pkgs.git" "main" "pkg"
 #UPDATE_PACKAGE "speedtest-cli" "https://github.com/sbwml/openwrt_pkgs.git" "main" "pkg"
