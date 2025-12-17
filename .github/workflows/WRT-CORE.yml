@@ -40,7 +40,11 @@ on:
       WRT_TEST:
         required: false
         type: string
-
+      WRT_COMMIT:
+        required: false
+        type: string
+        default: ""
+        
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   WRT_CONFIG: ${{inputs.WRT_CONFIG}}
@@ -55,7 +59,8 @@ env:
   WRT_SOURCE: ${{inputs.WRT_SOURCE}}
   WRT_PACKAGE: ${{inputs.WRT_PACKAGE}}
   WRT_TEST: ${{inputs.WRT_TEST}}
-
+  WRT_COMMIT: ${{inputs.WRT_COMMIT}}
+  
 jobs:
   core:
     name: ${{inputs.WRT_SOURCE}}
@@ -96,7 +101,12 @@ jobs:
         run: |
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
-          cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
+          cd ./wrt/ 
+          # 如果指定了commit，就切换到该commit
+          if [ -n "$WRT_COMMIT" ]; then
+            git checkout $WRT_COMMIT
+          fi
+          echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
            # 修改软件源为IPK（新增部分）
           sed -i 's/\.apk/\.ipk/g' feeds.conf.default
