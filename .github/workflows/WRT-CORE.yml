@@ -92,20 +92,31 @@ jobs:
           echo "WRT_KVER=none" >> $GITHUB_ENV
           echo "WRT_LIST=none" >> $GITHUB_ENV
 
-      - name: Clone Code
+      - name: Clone Code 
         run: |
-          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
+          echo "Cloning source code..."
 
-          cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
+          # 1. 克隆仓库（浅克隆）
+          git clone --depth=1 $WRT_REPO ./wrt/
 
-           # 修改软件源为IPK（新增部分）
+          cd ./wrt/
+
+          # 2. 切换到指定 commit（1180bb4）
+          git fetch --depth=1 origin 1180bb4
+          git checkout 1180bb4
+
+          # 3. 记录当前 commit hash
+          echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
+
+          # 4. 修改软件源为 IPK
           sed -i 's/\.apk/\.ipk/g' feeds.conf.default
-          
-          # GitHub Action 移除国内下载源
+
+          # 5. GitHub Action 移除国内下载源
           PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
           if [ -f "$PROJECT_MIRRORS_FILE" ]; then
             sed -i '/.cn\//d; /tencent/d; /aliyun/d' "$PROJECT_MIRRORS_FILE"
           fi
+
 
       - name: Check Scripts
         run: |
