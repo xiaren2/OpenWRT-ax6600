@@ -37,8 +37,8 @@ jobs:
         CONFIG: [IPQ60XX-WIFI-YES, IPQ60XX-EMMC-WIFI-YES]
         #SOURCE: [VIKINGYFY/immortalwrt, LiBwrt/openwrt-6.x]
         #BRANCH: [main, k6.12-nss]
-        SOURCE: [VIKINGYFY/immortalwrt]
-        BRANCH: [main]
+        SOURCE: [xiaren2/immortalwrt]
+        BRANCH: [fcab6cc]
         #exclude:
         #  - SOURCE: VIKINGYFY/immortalwrt
         #    BRANCH: k6.12-nss
