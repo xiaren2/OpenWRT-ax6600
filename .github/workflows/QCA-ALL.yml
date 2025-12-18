@@ -38,7 +38,7 @@ jobs:
         #SOURCE: [VIKINGYFY/immortalwrt, LiBwrt/openwrt-6.x]
         #BRANCH: [main, k6.12-nss]
         SOURCE: [xiaren2/immortalwrt]
-        BRANCH: [fcab6cc]
+        BRANCH: [ea0456f]
         #exclude:
         #  - SOURCE: VIKINGYFY/immortalwrt
         #    BRANCH: k6.12-nss
