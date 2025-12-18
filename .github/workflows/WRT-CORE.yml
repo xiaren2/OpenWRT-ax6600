@@ -94,26 +94,14 @@ jobs:
 
       - name: Clone Code
         run: |
-          echo "Cloning source code..."
+          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
-          # 1. 克隆仓库（浅克隆 main 分支）
-          git clone --depth=1 --branch main $WRT_REPO ./wrt/
+          cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
-          cd ./wrt/
-
-          # 2. 拉取 main 的完整提交历史（仅一次，保证能切 commit）
-          git fetch origin main
-
-          # 3. 切换到指定 commit
-          git checkout 1180bb4
-
-          # 4. 记录当前 commit hash
-          echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
-
-          # 5. 修改软件源为 IPK
+           # 修改软件源为IPK（新增部分）
           sed -i 's/\.apk/\.ipk/g' feeds.conf.default
-
-          # 6. GitHub Action 移除国内下载源
+          
+          # GitHub Action 移除国内下载源
           PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
           if [ -f "$PROJECT_MIRRORS_FILE" ]; then
             sed -i '/.cn\//d; /tencent/d; /aliyun/d' "$PROJECT_MIRRORS_FILE"
