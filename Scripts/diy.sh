@@ -70,7 +70,7 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
 UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
 UPDATE_PACKAGE "luci-app-tcpdump" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
 UPDATE_PACKAGE "ddnsto" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
-UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
+#UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
 #raurora配置
 UPDATE_PACKAGE "luci-app-aurora-config" "https://github.com/eamonxg/luci-app-aurora-config.git" "master"
 
