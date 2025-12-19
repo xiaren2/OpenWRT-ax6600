@@ -81,10 +81,10 @@ UPDATE_PACKAGE "luci-app-aurora-config" "https://github.com/eamonxg/luci-app-aur
 #UPDATE_PACKAGE "luci-app-adguardhome" "https://github.com/sirpdboy/luci-app-adguardhome.git" "main" "pkg"
 #UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #podman 类似docker
-UPDATE_PACKAGE "openwrt-podman" "https://github.com/breeze303/openwrt-podman" "main"
+#UPDATE_PACKAGE "openwrt-podman" "https://github.com/breeze303/openwrt-podman" "main"
 #文件管理
-UPDATE_PACKAGE "luci-app-quickfile" "https://github.com/sbwml/luci-app-quickfile" "main"
-sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bin/quickfile|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-aarch64_generic $(1)/usr/bin/quickfile|' package/luci-app-quickfile/quickfile/Makefile
+#UPDATE_PACKAGE "luci-app-quickfile" "https://github.com/sbwml/luci-app-quickfile" "main"
+#sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bin/quickfile|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-aarch64_generic $(1)/usr/bin/quickfile|' package/luci-app-quickfile/quickfile/Makefile
 
 #UPDATE_PACKAGE "frp" "https://github.com/ysuolmai/openwrt-frp.git" "main"
 
@@ -196,10 +196,12 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-app-filetransfer=y"
     "CONFIG_PACKAGE_openssh-sftp-server=y"
    # "CONFIG_PACKAGE_luci-app-frpc=y" 
-    "CONFIG_OPKG_USE_CURL=y"
-   "CONFIG_PACKAGE_opkg=y"   
-   "CONFIG_USE_APK=n"
-    "CONFIG_PACKAGE_apk-openssl=n"
+   #apk还是opkg
+   # "CONFIG_OPKG_USE_CURL=y"
+   # "CONFIG_PACKAGE_opkg=y"   
+   "CONFIG_USE_APK=y"
+    "CONFIG_PACKAGE_apk-openssl=y"
+	
    # "CONFIG_PACKAGE_luci-app-tailscale=y"
     #"CONFIG_PACKAGE_luci-app-msd_lite=y"
    # "CONFIG_PACKAGE_luci-app-lucky=y"
