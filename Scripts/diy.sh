@@ -70,7 +70,7 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
 UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
 UPDATE_PACKAGE "luci-app-tcpdump" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
 UPDATE_PACKAGE "ddnsto" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
-#UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
+UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/kwrt-packages.git" "main" "pkg"
 #raurora配置
 UPDATE_PACKAGE "luci-app-aurora-config" "https://github.com/eamonxg/luci-app-aurora-config.git" "master"
 
@@ -217,8 +217,8 @@ provided_config_lines=(
 	 "CONFIG_PACKAGE_luci-app-tcpdump=y"
 	 "CONFIG_PACKAGE_luci-app-tcpdump-zh-cn=y"
 	 "CONFIG_PACKAGE_ddnsto=y"
-	#  "CONFIG_PACKAGE_luci-app-ddnsto=y"
-	# "CONFIG_PACKAGE_luci-app-ddnsto-zh-cn=y"
+	  "CONFIG_PACKAGE_luci-app-ddnsto=y"
+	 "CONFIG_PACKAGE_luci-app-ddnsto-zh-cn=y"
 	  "CONFIG_PACKAGE_luci-app-aurora-config=y"
 )
 # 修改"CONFIG_USE_APK=n"和WRT-core里的，会将apk源替换为ipk，如用apk，opkg相关也应删除
@@ -485,4 +485,13 @@ fix_openwrt_apk_versions package
 #fix cmake minimum version issue
 if ! grep -q "CMAKE_POLICY_VERSION_MINIMUM" include/cmake.mk; then
   echo 'CMAKE_OPTIONS += -DCMAKE_POLICY_VERSION_MINIMUM=3.5' >> include/cmake.mk
+fi
+
+# 修复 luci-app-ddnsto 的 apk 版本号（双 r 问题）
+DDNSTO_MK="package/luci-app-ddnsto/Makefile"
+if [ -f "$DDNSTO_MK" ]; then
+    echo "Fixing luci-app-ddnsto Makefile for apk version format"
+    sed -i \
+        -e 's/^PKG_VERSION:=\(.*\)-r[0-9]\+$/PKG_VERSION:=\1/' \
+        "$DDNSTO_MK"
 fi
