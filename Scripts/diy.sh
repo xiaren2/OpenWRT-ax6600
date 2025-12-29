@@ -74,7 +74,7 @@ UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/kwrt-packages.git" 
 #raurora配置
 UPDATE_PACKAGE "luci-app-aurora-config" "https://github.com/eamonxg/luci-app-aurora-config.git" "master"
 
-UPDATE_PACKAGE "luci-app-mini-diskmanager" "https://github.com/4IceG/luci-app-mini-diskmanager.git" "main"
+UPDATE_PACKAGE "luci-app-mini-diskmanager" "https://github.com/4IceG/luci-app-mini-diskmanager.git" "main" "pkg"
 
 #speedtest
 #UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sbwml/openwrt_pkgs.git" "main" "pkg"
