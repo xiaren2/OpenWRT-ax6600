@@ -74,7 +74,7 @@ UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/kwrt-packages.git" 
 #raurora配置
 UPDATE_PACKAGE "luci-app-aurora-config" "https://github.com/eamonxg/luci-app-aurora-config.git" "master"
 
-UPDATE_PACKAGE "luci-app-mini-diskman" "https://github.com/4IceG/luci-app-mini-diskmanager.git" "main"
+UPDATE_PACKAGE "luci-app-mini-diskmanager" "https://github.com/4IceG/luci-app-mini-diskmanager.git" "main"
 
 #speedtest
 #UPDATE_PACKAGE "luci-app-netspeedtest" "https://github.com/sbwml/openwrt_pkgs.git" "main" "pkg"
@@ -222,7 +222,7 @@ provided_config_lines=(
 	  "CONFIG_PACKAGE_luci-app-ddnsto=y"
 	 "CONFIG_PACKAGE_luci-app-ddnsto-zh-cn=y"
 	  "CONFIG_PACKAGE_luci-app-aurora-config=y"
-	  "CONFIG_PACKAGE_luci-app-mini-diskman=y"
+	  "CONFIG_PACKAGE_luci-app-mini-diskmanager=y"
 )
 # 修改"CONFIG_USE_APK=n"和WRT-core里的，会将apk源替换为ipk，如用apk，opkg相关也应删除
 
