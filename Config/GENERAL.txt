@@ -124,3 +124,10 @@ CONFIG_PACKAGE_xz-utils=y
 CONFIG_PACKAGE_tcpdump=y
 CONFIG_PACKAGE_bandix=y
 CONFIG_PACKAGE_igmpproxy=y
+
+#php
+CONFIG_PACKAGE_php8=y
+CONFIG_PACKAGE_php8-cgi=y
+CONFIG_PACKAGE_php8-mod-curl=y
+CONFIG_PACKAGE_php8-mod-filter=y
+CONFIG_PACKAGE_php8-mod-openssl=y
