@@ -302,7 +302,8 @@ fi
     #"CONFIG_PACKAGE_luci-app-ssr-plus=y"
     #"CONFIG_PACKAGE_luci-app-passwall2=y"
     "CONFIG_PACKAGE_luci-app-samba4=y"
-
+    "CONFIG_PACKAGE_libicu=y"
+    "CONFIG_PACKAGE_icu=y"
   #  "CONFIG_PACKAGE_luci-app-openclash=y"
     #"CONFIG_PACKAGE_luci-app-quickfile=y"
     #"CONFIG_PACKAGE_quickfile=y"
@@ -339,7 +340,7 @@ install -Dm755 "${GITHUB_WORKSPACE}/Scripts/99_set_argon_primary" "package/base-
 
 # 增加全局ULA脚本
 #install -Dm755 "${GITHUB_WORKSPACE}/Scripts/12_network-generate-ula" "package/base-files/files/etc/uci-defaults/12_network-generate-ula"
-sed -i 's/--enable-icu/--disable-icu/g' feeds/packages/net/samba4/Makefile
+
 
 
 
