@@ -96,26 +96,7 @@ UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
 UPDATE_PACKAGE "luci-app-igmpproxy" "xiaren2/luci-app-igmp" "main"
 
-##########################################
-# 完整替换 Athena LED
-##########################################
 
-echo "========== 替换 Athena LED =========="
-
-# 1️⃣ 删除旧包
-rm -rf package/athena-led
-rm -rf package/luci-app-athena-led
-
-find feeds/ -type d -name "athena-led" -exec rm -rf {} + 2>/dev/null
-find feeds/ -type d -name "luci-app-athena-led" -exec rm -rf {} + 2>/dev/null
-
-UPDATE_PACKAGE "athena-led" "https://github.com/unraveloop/JDC-AX6600-Athena-LED-Controller.git" "main" "pkg"
-UPDATE_PACKAGE "luci-app-athena-led" "https://github.com/unraveloop/JDC-AX6600-Athena-LED-Controller.git" "main" "pkg"
-
-echo "CONFIG_PACKAGE_athena-led=y" >> .config
-echo "CONFIG_PACKAGE_luci-app-athena-led=y" >> .config
-
-echo "✅ Athena LED 已完全替换为源码版本"
 
 
 ##########################################
