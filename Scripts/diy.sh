@@ -97,27 +97,27 @@ UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 UPDATE_PACKAGE "luci-app-igmpproxy" "xiaren2/luci-app-igmp" "main"
 
 ##########################################
-# 替换上游 Athena LED 为第三方版本
+# 完整替换 Athena LED
 ##########################################
 
-echo "========== 开始处理 Athena LED =========="
+echo "========== 替换 Athena LED =========="
 
-# 删除上游版本
-find feeds/ package/ -maxdepth 4 -type d \( \
-    -name "luci-app-athena-led" -o \
-    -name "athena-led" \
-\) -exec rm -rf {} + 2>/dev/null
+# 1️⃣ 删除旧包
+rm -rf package/athena-led
+rm -rf package/luci-app-athena-led
 
-# 使用 UPDATE_PACKAGE 拉取第三方版本
-UPDATE_PACKAGE "luci-app-athena-led athena-led" \
-    "unraveloop/JDC-AX6600-Athena-LED-Controller" \
-    "main" \
-    "pkg"
+find feeds/ -type d -name "athena-led" -exec rm -rf {} + 2>/dev/null
+find feeds/ -type d -name "luci-app-athena-led" -exec rm -rf {} + 2>/dev/null
+
+UPDATE_PACKAGE "athena-led" "https://github.com/unraveloop/JDC-AX6600-Athena-LED-Controller.git" "main" "pkg"
+UPDATE_PACKAGE "luci-app-athena-led" "https://github.com/unraveloop/JDC-AX6600-Athena-LED-Controller.git" "main" "pkg"
 
 echo "CONFIG_PACKAGE_athena-led=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-athena-led=y" >> .config
 
-echo "✅ 第三方 Athena LED 已替换完成"
+echo "✅ Athena LED 已完全替换为源码版本"
+
+
 ##########################################
 # 添加 rtp2httpd 流媒体转发服务器 (feed 模式)
 ##########################################
