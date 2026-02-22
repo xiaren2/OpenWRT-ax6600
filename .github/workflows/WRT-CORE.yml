@@ -148,12 +148,12 @@ jobs:
 #            echo "caches cleanup done!"
 #          fi
 
-      - name: Cache Toolchain(缓存工具链)
-        uses: HiGarfield/cachewrtbuild@main
-        with:
-          ccache: true
-          mixkey: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_HASH}}
-          prefix: "wrt"
+  #    - name: Cache Toolchain(缓存工具链)
+ #       uses: HiGarfield/cachewrtbuild@main
+#        with:
+  #        ccache: true
+   #       mixkey: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_HASH}}
+    #      prefix: "wrt"
 
 
       - name: Update Feeds
@@ -190,7 +190,7 @@ jobs:
         run: |
           cd ./wrt/
 
-          make download -j$(nproc)     
+          make download -j$(nproc)
 
     
           
