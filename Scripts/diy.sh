@@ -96,7 +96,23 @@ UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
 UPDATE_PACKAGE "luci-app-igmpproxy" "xiaren2/luci-app-igmp" "main"
 
+##########################################
+# 替换 immortalwrt 自带 Athena LED
+##########################################
 
+echo "替换 emortal Athena LED"
+
+rm -rf package/emortal/luci-app-athena-led
+rm -rf package/emortal/athena-led
+
+git clone --depth=1 \
+https://github.com/unraveloop/JDC-AX6600-Athena-LED-Controller.git \
+package/_athena_tmp
+
+mv package/_athena_tmp/athena-led package/emortal/
+mv package/_athena_tmp/luci-app-athena-led package/emortal/
+
+rm -rf package/_athena_tmp
 
 
 ##########################################
