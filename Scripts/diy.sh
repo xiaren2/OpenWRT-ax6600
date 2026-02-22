@@ -97,10 +97,10 @@ UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 UPDATE_PACKAGE "luci-app-igmpproxy" "xiaren2/luci-app-igmp" "main"
 
 ##########################################
-# 替换 immortalwrt 自带 Athena LED
+# 替换 emortal Athena LED（自动修复版本不匹配）
 ##########################################
 
-echo "替换 emortal Athena LED"
+echo "替换 emortal Athena LED（自动适配 Release 文件版本）"
 
 rm -rf package/emortal/luci-app-athena-led
 rm -rf package/emortal/athena-led
@@ -111,8 +111,43 @@ package/_athena_tmp
 
 mv package/_athena_tmp/athena-led package/emortal/
 mv package/_athena_tmp/luci-app-athena-led package/emortal/
-
 rm -rf package/_athena_tmp
+
+ATHENA_MK="package/emortal/athena-led/Makefile"
+
+if [ -f "$ATHENA_MK" ]; then
+    echo "检测 Release 实际二进制文件版本..."
+
+    # 读取 Makefile 里的下载目录版本（例如 v1.0.4）
+    RELEASE_TAG=$(grep PKG_SOURCE_URL "$ATHENA_MK" | \
+        grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
+
+    if [ -n "$RELEASE_TAG" ]; then
+        echo "Release tag: $RELEASE_TAG"
+
+        # 读取 Release 页面真实文件名
+        REAL_FILE=$(curl -sL \
+            "https://github.com/unraveloop/JDC-AX6600-Athena-LED-Controller/releases/tag/$RELEASE_TAG" | \
+            grep -oE 'athena-led-aarch64-unknown-linux-musl-v[0-9]+\.[0-9]+\.[0-9]+\.tar\.gz' | \
+            head -n1)
+
+        if [ -n "$REAL_FILE" ]; then
+            REAL_VER=$(echo "$REAL_FILE" | \
+                grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+
+            echo "实际二进制版本: $REAL_VER"
+
+            # 修改 PKG_VERSION
+            sed -i -E "s/PKG_VERSION:=[0-9]+\.[0-9]+\.[0-9]+/PKG_VERSION:=$REAL_VER/" "$ATHENA_MK"
+
+            echo "已自动修正 PKG_VERSION -> $REAL_VER"
+        else
+            echo "⚠ 未找到真实文件名，保持原版本"
+        fi
+    else
+        echo "⚠ 未找到 Release tag"
+    fi
+fi
 
 
 ##########################################
