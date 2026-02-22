@@ -100,28 +100,28 @@ UPDATE_PACKAGE "luci-app-igmpproxy" "xiaren2/luci-app-igmp" "main"
 # 替换 immortalwrt 自带 Athena LED
 ##########################################
 
-echo "替换 emortal Athena LED"
+#echo "替换 emortal Athena LED"
 
-rm -rf package/emortal/luci-app-athena-led
-rm -rf package/emortal/athena-led
+#rm -rf package/emortal/luci-app-athena-led
+#rm -rf package/emortal/athena-led
 
-git clone --depth=1 \
-https://github.com/xiaren2/JDC-AX6600-Athena-LED-Controller.git \
-package/_athena_tmp
+#git clone --depth=1 \
+#https://github.com/xiaren2/JDC-AX6600-Athena-LED-Controller.git \
+#package/_athena_tmp
 
-mv package/_athena_tmp/athena-led package/emortal/
-mv package/_athena_tmp/luci-app-athena-led package/emortal/
+#mv package/_athena_tmp/athena-led package/emortal/
+#mv package/_athena_tmp/luci-app-athena-led package/emortal/
 
-rm -rf package/_athena_tmp
+#rm -rf package/_athena_tmp
 
-echo "CONFIG_PACKAGE_luci-app-athena-led=y" >> .config
+#echo "CONFIG_PACKAGE_luci-app-athena-led=y" >> .config
 #echo "CONFIG_PACKAGE_luci-athena-led=y" >> .config
 # 移除默认 image 里自带的中文包
-find target/linux -type f -name "*.mk" -exec \
-  sed -i '/luci-i18n-athena-led-zh-cn/d' {} \;
+#find target/linux -type f -name "*.mk" -exec \
+#  sed -i '/luci-i18n-athena-led-zh-cn/d' {} \;
 
 # 确保 .config 里没有
-sed -i '/luci-i18n-athena-led-zh-cn/d' .config
+#sed -i '/luci-i18n-athena-led-zh-cn/d' .config
 
 ##########################################
 # 添加 rtp2httpd 流媒体转发服务器 (feed 模式)
