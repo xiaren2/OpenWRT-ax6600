@@ -113,7 +113,14 @@ mv package/_athena_tmp/athena-led package/emortal/
 mv package/_athena_tmp/luci-app-athena-led package/emortal/
 
 rm -rf package/_athena_tmp
-echo "CONFIG_PACKAGE_luci-i18n-athena-led-zh-cn=n" >> .config
+
+#echo "CONFIG_PACKAGE_luci-i18n-athena-led-zh-cn=n" >> .config
+# 移除默认 image 里自带的中文包
+find target/linux -type f -name "*.mk" -exec \
+  sed -i '/luci-i18n-athena-led-zh-cn/d' {} \;
+
+# 确保 .config 里没有
+sed -i '/luci-i18n-athena-led-zh-cn/d' .config
 
 ##########################################
 # 添加 rtp2httpd 流媒体转发服务器 (feed 模式)
