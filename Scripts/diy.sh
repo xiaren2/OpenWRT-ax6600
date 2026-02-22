@@ -114,7 +114,8 @@ mv package/_athena_tmp/luci-app-athena-led package/emortal/
 
 rm -rf package/_athena_tmp
 
-#echo "CONFIG_PACKAGE_luci-i18n-athena-led-zh-cn=n" >> .config
+echo "CONFIG_PACKAGE_luci-app-athena-led=y" >> .config
+#echo "CONFIG_PACKAGE_luci-athena-led=y" >> .config
 # 移除默认 image 里自带的中文包
 find target/linux -type f -name "*.mk" -exec \
   sed -i '/luci-i18n-athena-led-zh-cn/d' {} \;
