@@ -124,7 +124,6 @@ CONFIG_PACKAGE_xz-utils=y
 CONFIG_PACKAGE_tcpdump=y
 CONFIG_PACKAGE_bandix=y
 CONFIG_PACKAGE_igmpproxy=y
-#CONFIG_PACKAGE_zoneinfo-asia=y
 
 #php
 CONFIG_PACKAGE_php8=y
@@ -132,3 +131,16 @@ CONFIG_PACKAGE_php8-cgi=y
 CONFIG_PACKAGE_php8-mod-curl=y
 CONFIG_PACKAGE_php8-mod-filter=y
 CONFIG_PACKAGE_php8-mod-openssl=y
+
+#时区相关
+CONFIG_PACKAGE_zoneinfo-asia=y
+CONFIG_PACKAGE_zoneinfo-all=n
+CONFIG_PACKAGE_zoneinfo-africa=n
+CONFIG_PACKAGE_zoneinfo-america=n
+CONFIG_PACKAGE_zoneinfo-australia-nz=n
+CONFIG_PACKAGE_zoneinfo-atlantic=n
+CONFIG_PACKAGE_zoneinfo-pacific=n
+CONFIG_PACKAGE_zoneinfo-indian=n
+CONFIG_PACKAGE_zoneinfo-europe=n
+CONFIG_PACKAGE_zoneinfo-poles=n
+CONFIG_PACKAGE_zoneinfo-simple=n
