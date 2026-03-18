@@ -95,7 +95,7 @@ UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
 
 UPDATE_PACKAGE "luci-app-igmpproxy" "xiaren2/luci-app-igmp" "main"
-UPDATE_PACKAGE "luci-app-wifihistory" "openwrt/luci" "master" "pkg"
+UPDATE_PACKAGE "luci-app-wifihistory" "kenzok8/jell" "main" "pkg"
 ##########################################
 # 替换 immortalwrt 自带 Athena LED
 ##########################################
