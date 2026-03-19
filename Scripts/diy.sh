@@ -64,7 +64,7 @@ UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
         taskd luci-lib-xterm luci-lib-taskd luci-app-ssr-plus luci-app-passwall2 \
         quickstart luci-app-quickstart luci-app-cloudflarespeedtest \
         luci-theme-argon netdata luci-app-netdata mihomo \
-        luci-app-nikki frp" "kenzok8/small-package" "main" "pkg"
+        luci-app-nikki frp" "kenzok8/jell" "main" "pkg"
 
 #luci-app-onliner
 UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
