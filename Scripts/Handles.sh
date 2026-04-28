@@ -93,27 +93,27 @@ if [ -f "$RUST_FILE" ]; then
 fi
 
 #修复DiskMan编译失败
-DM_FILE="./luci-app-diskman/applications/luci-app-diskman/Makefile"
-if [ -f "$DM_FILE" ]; then
-	echo " "
+#DM_FILE="./luci-app-diskman/applications/luci-app-diskman/Makefile"
+#if [ -f "$DM_FILE" ]; then
+#	echo " "
 
-	#sed -i 's/fs-ntfs/fs-ntfs3/g' $DM_FILE
-	sed -i '/ntfs-3g-utils /d' $DM_FILE
+#	#sed -i 's/fs-ntfs/fs-ntfs3/g' $DM_FILE
+#	sed -i '/ntfs-3g-utils /d' $DM_FILE
 
-	cd $PKG_PATH && echo "diskman has been fixed!"
-fi
+#	cd $PKG_PATH && echo "diskman has been fixed!"
+#fi
 
 #修复luci-app-netspeedtest相关问题
-if [ -d *"luci-app-netspeedtest"* ]; then
-	echo " "
+#if [ -d *"luci-app-netspeedtest"* ]; then
+#	echo " "
 
-	cd ./luci-app-netspeedtest/
+#	cd ./luci-app-netspeedtest/
 
-	sed -i '$a\exit 0' ./netspeedtest/files/99_netspeedtest.defaults
-	sed -i 's/ca-certificates/ca-bundle/g' ./speedtest-cli/Makefile
+#	sed -i '$a\exit 0' ./netspeedtest/files/99_netspeedtest.defaults
+#	sed -i 's/ca-certificates/ca-bundle/g' ./speedtest-cli/Makefile
 
-	cd $PKG_PATH && echo "netspeedtest has been fixed!"
-fi
+#	cd $PKG_PATH && echo "netspeedtest has been fixed!"
+#fi
 #移除sb内核回溯移植补丁
 #SB_PATCH="../feeds/packages/net/sing-box/patches"
 #if [ -d "$SB_PATCH" ]; then
