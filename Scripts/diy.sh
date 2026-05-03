@@ -306,7 +306,7 @@ fi
 	"CONFIG_PACKAGE_luci-app-homeproxy=y"
 #    "CONFIG_PACKAGE_luci-app-passwall=y"
 #    "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y"
-    "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=y"
+    "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=n"
     "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Client=n"
     "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Simple_Obfs=n"
     "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_SingBox=n"
