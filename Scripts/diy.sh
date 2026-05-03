@@ -531,3 +531,13 @@ if [ -f "$DDNSTO_MK" ]; then
         -e 's/^PKG_VERSION:=\(.*\)-r[0-9]\+$/PKG_VERSION:=\1/' \
         "$DDNSTO_MK"
 fi
+
+# 彻底禁用 xray
+sed -i '/CONFIG_PACKAGE_xray-core/d' .config
+echo "CONFIG_PACKAGE_xray-core=n" >> .config
+
+echo "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray=n" >> .config
+echo "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray_Core=n" >> .config
+
+# 如果你不用它，顺便关掉
+echo "CONFIG_PACKAGE_luci-app-passwall2=n" >> .config
