@@ -216,7 +216,8 @@ provided_config_lines=(
   #  "CONFIG_PACKAGE_luci-i18n-homeproxy-zh-cn=y"
   #  "CONFIG_PACKAGE_luci-app-ddns-go=y"
     #"CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
-    "CONFIG_PACKAGE_luci-app-argon-config=y"
+  #  "CONFIG_PACKAGE_luci-app-argon-config=y"
+    "CONFIG_PACKAGE_luci-app-argon=n"
     "CONFIG_PACKAGE_nano=y"
     "CONFIG_BUSYBOX_CONFIG_LSUSB=n"
  #  "CONFIG_PACKAGE_luci-app-netspeedtest=y"
@@ -532,12 +533,4 @@ if [ -f "$DDNSTO_MK" ]; then
         "$DDNSTO_MK"
 fi
 
-# 彻底禁用 xray
-sed -i '/CONFIG_PACKAGE_xray-core/d' .config
-echo "CONFIG_PACKAGE_xray-core=n" >> .config
 
-echo "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray=n" >> .config
-echo "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray_Core=n" >> .config
-
-# 如果你不用它，顺便关掉
-echo "CONFIG_PACKAGE_luci-app-passwall2=n" >> .config
