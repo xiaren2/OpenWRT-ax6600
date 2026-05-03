@@ -58,14 +58,15 @@ UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 
 #small-package
 UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
-        naiveproxy v2ray-core v2ray-geoview v2ray-plugin \
+        naiveproxy v2ray-geoview v2ray-plugin \
         tuic-client chinadns-ng ipt2socks tcping trojan-plus simple-obfs shadowsocksr-libev \
         luci-app-passwall v2dat \
         taskd luci-lib-xterm luci-lib-taskd luci-app-ssr-plus luci-app-passwall2 \
         quickstart luci-app-quickstart luci-app-cloudflarespeedtest \
         luci-theme-argon netdata luci-app-netdata mihomo \
         luci-app-nikki frp" "kenzok8/jell" "main" "pkg"
-
+echo "CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_NONE_Server=n" >> .config
+echo "CONFIG_PACKAGE_xray-core=n" >> .config
 #luci-app-onliner
 UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 UPDATE_PACKAGE "luci-app-tcpdump" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
