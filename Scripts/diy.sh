@@ -57,7 +57,7 @@ UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 
 
 #small-package
-UPDATE_PACKAGE "xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
+UPDATE_PACKAGE "xray-plugin dns2tcp dns2socks haproxy hysteria \
         naiveproxy v2ray-geoview v2ray-plugin \
         tuic-client chinadns-ng ipt2socks tcping trojan-plus simple-obfs shadowsocksr-libev \
         luci-app-passwall v2dat \
