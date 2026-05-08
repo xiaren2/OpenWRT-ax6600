@@ -145,95 +145,23 @@ echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
 echo "✅ 已启用 rtp2httpd 流媒体转发服务器 (通过 feed 方式集成)"
 
-##########################################
+# Add tailscale-community
+git clone https://github.com/tokisaki-galaxy/luci-app-tailscale-community --branch=master --depth=1 /tmp/luci-app-tailscale-community
+mkdir -p package/luci-app-tailscale-community
+cp -r /tmp/luci-app-tailscale-community/luci-app-tailscale-community package/
+# Fix luci-app-tailscale-community recursive dependency (select + depends cycle)
+sed -i 's/LUCI_DEPENDS:=+tailscale/LUCI_DEPENDS:=tailscale/' package/luci-app-tailscale-community/Makefile
 
-# Tailscale Community
+git clone https://github.com/GuNanOvO/openwrt-tailscale --branch=main --depth=1 /tmp/openwrt-tailscale
+mkdir -p package/tailscale-community
+cp -r /tmp/openwrt-tailscale/package/tailscale/* package/tailscale-community/
 
-##########################################
-
-echo "========== Configure Tailscale =========="
-
-# 删除旧 tailscale（关键）
-
-rm -rf feeds/packages/net/tailscale
-rm -rf feeds/luci/applications/luci-app-tailscale
-
-rm -rf package/tailscale
-rm -rf package/luci-app-tailscale
-rm -rf package/luci-app-tailscale-community
-rm -rf package/openwrt-tailscale
-
-##########################################
-
-# LuCI
-
-##########################################
-
-git clone --depth=1 
--b master 
-https://github.com/tokisaki-galaxy/luci-app-tailscale-community.git 
-package/luci-app-tailscale-community
-
-# 修复 recursive dependency
-
-TAILSCALE_LUCI_MK="package/luci-app-tailscale-community/Makefile"
-
-sed -i 
-'s/LUCI_DEPENDS:=+tailscale/LUCI_DEPENDS:=tailscale/g' 
-"$TAILSCALE_LUCI_MK"
-
-##########################################
-
-# Tailscale Core
-
-##########################################
-
-git clone --depth=1 
--b main 
-https://github.com/GuNanOvO/openwrt-tailscale.git 
-/tmp/openwrt-tailscale
-
-mkdir -p package/tailscale
-
-cp -rf 
-/tmp/openwrt-tailscale/package/tailscale/* 
-package/tailscale/
-
-rm -rf /tmp/openwrt-tailscale
-
-TAILSCALE_MK="package/tailscale/Makefile"
-
-# 禁用 UPX
-
-sed -i 
-'/^include $(TOPDIR)/rules.mk/a DISABLE_UPX:=1' 
-"$TAILSCALE_MK"
-
-# 删除 UPX 描述
-
-sed -i 
-'s/(OpenWrt-UPX)/(OpenWrt)/g' 
-"$TAILSCALE_MK"
-
-sed -i 
-'s/Zero config VPN (UPX Compressed)/Zero config VPN/g' 
-"$TAILSCALE_MK"
-
-# 删除有问题的复制逻辑
-
-sed -i 
-'/mkdir -p.*bin/packages.*base/d' 
-"$TAILSCALE_MK"
-
-sed -i 
-'/$(CP).*base/tailscaled/d' 
-"$TAILSCALE_MK"
-
-##########################################
-
-# Enable
-
-##########################################
+TAILSCALE_MK="package/tailscale-community/Makefile"
+sed -i '/^include \$(TOPDIR)\/rules.mk/a DISABLE_UPX:=1' "$TAILSCALE_MK"
+sed -i "s/(OpenWrt-UPX)/(OpenWrt)/" "$TAILSCALE_MK"
+sed -i 's/Zero config VPN (UPX Compressed)/Zero config VPN/' "$TAILSCALE_MK"
+sed -i '/mkdir -p.*bin\/packages.*base/d' "$TAILSCALE_MK"
+sed -i '/\$(CP).*base\/tailscaled/d' "$TAILSCALE_MK"
 
 echo "CONFIG_PACKAGE_tailscale=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-tailscale-community=y" >> .config
