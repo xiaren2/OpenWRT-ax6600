@@ -273,8 +273,8 @@ done
 
 # Configuration lines to append to .config
 provided_config_lines=(
-   "CONFIG_PACKAGE_luci-app-zerotier=y"
-    "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
+  # "CONFIG_PACKAGE_luci-app-zerotier=y"
+ #   "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-adguardhome=n"
     "CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=n"
   #  "CONFIG_PACKAGE_luci-app-poweroff=y"
