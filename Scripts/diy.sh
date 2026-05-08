@@ -148,7 +148,12 @@ echo "✅ 已启用 rtp2httpd 流媒体转发服务器 (通过 feed 方式集成
 ##########################################
 # Tailscale Community
 ##########################################
-
+rm -rf feeds/packages/net/tailscale
+rm -rf feeds/luci/applications/luci-app-tailscale
+rm -rf package/luci-app-tailscale
+rm -rf package/luci-app-tailscale-community
+rm -rf package/tailscale-community
+rm -rf package/openwrt-tailscale
 # LuCI
 UPDATE_PACKAGE "luci-app-tailscale-community" \
 "tokisaki-galaxy/luci-app-tailscale-community" \
