@@ -127,28 +127,32 @@ target/linux/qualcommax/image/ipq60xx.mk
 sed -i '/luci-i18n-athena-led-zh-cn/d' .config
 
 ##########################################
-# 添加 rtp2httpd 流媒体转发服务器
+
+# rtp2httpd（使用 package 覆盖官方版本）
+
 ##########################################
 
-# 删除官方版本（避免 feed 优先级冲突）
+echo "使用第三方 rtp2httpd"
+
+# 删除官方版本，避免冲突
+
 rm -rf feeds/packages/net/rtp2httpd
 rm -rf feeds/luci/applications/luci-app-rtp2httpd
+rm -rf package/rtp2httpd
 
-# 添加第三方 feed
-echo "src-git rtp2httpd https://github.com/stackia/rtp2httpd.git" >> feeds.conf.default
+# 克隆第三方版本（package 优先级最高）
 
-# 更新 feed
-./scripts/feeds update rtp2httpd
+git clone --depth=1 
+https://github.com/stackia/rtp2httpd.git 
+package/rtp2httpd
 
-# 安装指定包
-./scripts/feeds install -p rtp2httpd rtp2httpd
-./scripts/feeds install -p rtp2httpd luci-app-rtp2httpd
+# 启用软件包
 
-# 启用
 echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
 
 echo "✅ 已替换为第三方 rtp2httpd"
+
 
 # Add tailscale-community
 #git clone https://github.com/tokisaki-galaxy/luci-app-tailscale-community --branch=master --depth=1 /tmp/luci-app-tailscale-community
