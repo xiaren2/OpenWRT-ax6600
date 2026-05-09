@@ -146,27 +146,27 @@ echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
 echo "✅ 已启用 rtp2httpd 流媒体转发服务器 (通过 feed 方式集成)"
 
 # Add tailscale-community
-git clone https://github.com/tokisaki-galaxy/luci-app-tailscale-community --branch=master --depth=1 /tmp/luci-app-tailscale-community
-mkdir -p package/luci-app-tailscale-community
-cp -r /tmp/luci-app-tailscale-community/luci-app-tailscale-community package/
-# Fix luci-app-tailscale-community recursive dependency (select + depends cycle)
-sed -i 's/LUCI_DEPENDS:=+tailscale/LUCI_DEPENDS:=tailscale/' package/luci-app-tailscale-community/Makefile
+#git clone https://github.com/tokisaki-galaxy/luci-app-tailscale-community --branch=master --depth=1 /tmp/luci-app-tailscale-community
+#mkdir -p package/luci-app-tailscale-community
+#cp -r /tmp/luci-app-tailscale-community/luci-app-tailscale-community package/
+## Fix luci-app-tailscale-community recursive dependency (select + depends cycle)
+#sed -i 's/LUCI_DEPENDS:=+tailscale/LUCI_DEPENDS:=tailscale/' package/luci-app-tailscale-community/Makefile
 
-git clone https://github.com/GuNanOvO/openwrt-tailscale --branch=main --depth=1 /tmp/openwrt-tailscale
-mkdir -p package/tailscale-community
-cp -r /tmp/openwrt-tailscale/package/tailscale/* package/tailscale-community/
+#git clone https://github.com/GuNanOvO/openwrt-tailscale --branch=main --depth=1 /tmp/openwrt-tailscale
+#mkdir -p package/tailscale-community
+#cp -r /tmp/openwrt-tailscale/package/tailscale/* package/tailscale-community/
 
-TAILSCALE_MK="package/tailscale-community/Makefile"
-sed -i '/^include \$(TOPDIR)\/rules.mk/a DISABLE_UPX:=1' "$TAILSCALE_MK"
-sed -i "s/(OpenWrt-UPX)/(OpenWrt)/" "$TAILSCALE_MK"
-sed -i 's/Zero config VPN (UPX Compressed)/Zero config VPN/' "$TAILSCALE_MK"
-sed -i '/mkdir -p.*bin\/packages.*base/d' "$TAILSCALE_MK"
-sed -i '/\$(CP).*base\/tailscaled/d' "$TAILSCALE_MK"
+#TAILSCALE_MK="package/tailscale-community/Makefile"
+#sed -i '/^include \$(TOPDIR)\/rules.mk/a DISABLE_UPX:=1' "$TAILSCALE_MK"
+#sed -i "s/(OpenWrt-UPX)/(OpenWrt)/" "$TAILSCALE_MK"
+#sed -i 's/Zero config VPN (UPX Compressed)/Zero config VPN/' "$TAILSCALE_MK"
+#sed -i '/mkdir -p.*bin\/packages.*base/d' "$TAILSCALE_MK"
+#sed -i '/\$(CP).*base\/tailscaled/d' "$TAILSCALE_MK"
 
-echo "CONFIG_PACKAGE_tailscale=y" >> .config
-echo "CONFIG_PACKAGE_luci-app-tailscale-community=y" >> .config
+#echo "CONFIG_PACKAGE_tailscale=y" >> .config
+#echo "CONFIG_PACKAGE_luci-app-tailscale-community=y" >> .config
 
-echo "========== Tailscale Ready =========="
+#echo "========== Tailscale Ready =========="
 
 
 
@@ -223,8 +223,8 @@ done
 
 # Configuration lines to append to .config
 provided_config_lines=(
-  # "CONFIG_PACKAGE_luci-app-zerotier=y"
- #   "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
+   "CONFIG_PACKAGE_luci-app-zerotier=y"
+    "CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y"
     "CONFIG_PACKAGE_luci-app-adguardhome=n"
     "CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=n"
   #  "CONFIG_PACKAGE_luci-app-poweroff=y"
