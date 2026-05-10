@@ -129,44 +129,22 @@ sed -i '/luci-i18n-athena-led-zh-cn/d' .config
 ##########################################
 
 ##########################################
-
-# rtp2httpd（第三方覆盖官方）
-
+# 添加 rtp2httpd 流媒体转发服务器 (package 模式，强制覆盖官方旧版)
 ##########################################
 
-echo "使用第三方 rtp2httpd"
+# 1) 直接克隆到你指定的 package 目录（编译时会优先扫 package/）
+git clone --depth=1 \
+  https://github.com/stackia/rtp2httpd.git \
+  package/rtp2httpd
 
-# 删除官方版本
-
+# 2) 如果后面还会执行 ./scripts/feeds install -a，先把官方 feeds 里的同名包清掉，防止被覆盖
 rm -rf feeds/packages/net/rtp2httpd
 rm -rf feeds/luci/applications/luci-app-rtp2httpd
 
-# 删除旧版本
-
-rm -rf package/rtp2httpd
-rm -rf package/luci-app-rtp2httpd
-rm -rf package/_rtp2httpd_tmp
-
-# 克隆源码
-
-git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/_rtp2httpd_tmp
-
-# 复制 OpenWrt 软件包
-
-cp -rf package/_rtp2httpd_tmp/openwrt-support/rtp2httpd package/
-cp -rf package/_rtp2httpd_tmp/openwrt-support/luci-app-rtp2httpd package/
-
-# 删除临时目录
-
-rm -rf package/_rtp2httpd_tmp
-
-# 启用软件包
-
+# 3) 启用包
 echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
-
-echo "✅ 已使用第三方 rtp2httpd"
-
+echo "✅ 已启用 rtp2httpd 流媒体转发服务器 (通过 package/ 方式集成，覆盖官方旧版)"
 
 
 
