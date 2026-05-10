@@ -149,19 +149,12 @@ rm -rf package/_rtp2httpd_tmp
 
 # 克隆源码
 
-git clone --depth=1 
-https://github.com/stackia/rtp2httpd.git 
-package/_rtp2httpd_tmp
+git clone --depth=1 https://github.com/stackia/rtp2httpd.git package/_rtp2httpd_tmp
 
 # 复制 OpenWrt 软件包
 
-cp -rf 
-package/_rtp2httpd_tmp/openwrt-support/rtp2httpd 
-package/
-
-cp -rf 
-package/_rtp2httpd_tmp/openwrt-support/luci-app-rtp2httpd 
-package/
+cp -rf package/_rtp2httpd_tmp/openwrt-support/rtp2httpd package/
+cp -rf package/_rtp2httpd_tmp/openwrt-support/luci-app-rtp2httpd package/
 
 # 删除临时目录
 
@@ -173,6 +166,7 @@ echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
 
 echo "✅ 已使用第三方 rtp2httpd"
+
 
 
 
