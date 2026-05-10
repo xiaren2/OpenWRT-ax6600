@@ -128,30 +128,52 @@ sed -i '/luci-i18n-athena-led-zh-cn/d' .config
 
 ##########################################
 
-# rtp2httpd（使用 package 覆盖官方版本）
+##########################################
+
+# rtp2httpd（第三方覆盖官方）
 
 ##########################################
 
 echo "使用第三方 rtp2httpd"
 
-# 删除官方版本，避免冲突
+# 删除官方版本
 
 rm -rf feeds/packages/net/rtp2httpd
 rm -rf feeds/luci/applications/luci-app-rtp2httpd
-rm -rf package/rtp2httpd
 
-# 克隆第三方版本（package 优先级最高）
+# 删除旧版本
+
+rm -rf package/rtp2httpd
+rm -rf package/luci-app-rtp2httpd
+rm -rf package/_rtp2httpd_tmp
+
+# 克隆源码
 
 git clone --depth=1 
 https://github.com/stackia/rtp2httpd.git 
-package/rtp2httpd
+package/_rtp2httpd_tmp
+
+# 复制 OpenWrt 软件包
+
+cp -rf 
+package/_rtp2httpd_tmp/openwrt-support/rtp2httpd 
+package/
+
+cp -rf 
+package/_rtp2httpd_tmp/openwrt-support/luci-app-rtp2httpd 
+package/
+
+# 删除临时目录
+
+rm -rf package/_rtp2httpd_tmp
 
 # 启用软件包
 
 echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
 
-echo "✅ 已替换为第三方 rtp2httpd"
+echo "✅ 已使用第三方 rtp2httpd"
+
 
 
 # Add tailscale-community
