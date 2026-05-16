@@ -69,7 +69,7 @@ UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 #echo "CONFIG_PACKAGE_xray-core=n" >> .config
 #luci-app-onliner
 #UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
-UPDATE_PACKAGE "luci-app-onliner-overview" "https://github.com/lemonjc/luci-app-onliner-overview.git" "main"
+UPDATE_PACKAGE "luci-app-onliner-overview" "https://github.com/xiaren2/luci-app-onliner-overview.git" "main"
 UPDATE_PACKAGE "luci-app-tcpdump" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 UPDATE_PACKAGE "ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
