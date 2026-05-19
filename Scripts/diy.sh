@@ -91,7 +91,7 @@ UPDATE_PACKAGE "luci-app-aurora-config" "https://github.com/eamonxg/luci-app-aur
 #sed -i 's|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-$(ARCH_PACKAGES) $(1)/usr/bin/quickfile|$(INSTALL_BIN) $(PKG_BUILD_DIR)/quickfile-aarch64_generic $(1)/usr/bin/quickfile|' package/luci-app-quickfile/quickfile/Makefile
 
 #UPDATE_PACKAGE "frp" "https://github.com/ysuolmai/openwrt-frp.git" "main"
-
+UPDATE_PACKAGE "luci-app-netwiz" "https://github.com/huchd0/luci-app-netwiz.git" "master"
 # bandix
 UPDATE_PACKAGE "openwrt-bandix" "timsaya/openwrt-bandix" "main"
 UPDATE_PACKAGE "luci-app-bandix" "timsaya/luci-app-bandix" "main"
