@@ -71,8 +71,8 @@ UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 #UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 UPDATE_PACKAGE "luci-app-onliner-overview" "https://github.com/xiaren2/luci-app-onliner-overview.git" "main"
 UPDATE_PACKAGE "luci-app-tcpdump-master" "https://github.com/xiaren2/luci.git" "main" "pkg"
-UPDATE_PACKAGE "ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
-UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
+#UPDATE_PACKAGE "ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
+#UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 #raurora配置
 UPDATE_PACKAGE "luci-app-aurora-config" "https://github.com/eamonxg/luci-app-aurora-config.git" "master"
 
@@ -147,7 +147,22 @@ echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
 echo "✅ 已启用 rtp2httpd 流媒体转发服务器 (通过 package/ 方式集成，覆盖官方旧版)"
 
+##########################################
+# 添加 ddns-go (package 模式，强制覆盖官方旧版)
+##########################################
 
+# 1) 直接克隆到你指定的 package 目录（编译时会优先扫 package/）
+git clone --depth=1 \
+  https://github.com/sirpdboy/luci-app-ddns-go.git \
+  package/rtp2httpd
+
+# 2) 如果后面还会执行 ./scripts/feeds install -a，先把官方 feeds 里的同名包清掉，防止被覆盖
+rm -rf feeds/luci/applications/luci-app-ddns-go
+
+# 3) 启用包
+#echo "CONFIG_PACKAGE_ddns-go=y" >> .config
+echo "CONFIG_PACKAGE_luci-app-ddns-go=y" >> .config
+echo "✅ 已启用ddns-go内网 (通过 package/ 方式集成，覆盖官方旧版)"
 
 # Add tailscale-community
 #git clone https://github.com/tokisaki-galaxy/luci-app-tailscale-community --branch=master --depth=1 /tmp/luci-app-tailscale-community
@@ -277,9 +292,9 @@ provided_config_lines=(
     "CONFIG_PACKAGE_luci-theme-bootstrap=y"
 	 "CONFIG_PACKAGE_luci-app-tcpdump=y"
 	 "CONFIG_PACKAGE_luci-app-tcpdump-zh-cn=y"
-	 "CONFIG_PACKAGE_ddnsto=y"
-	  "CONFIG_PACKAGE_luci-app-ddnsto=y"
-	 "CONFIG_PACKAGE_luci-app-ddnsto-zh-cn=y"
+	# "CONFIG_PACKAGE_ddnsto=y"
+	#  "CONFIG_PACKAGE_luci-app-ddnsto=y"
+	# "CONFIG_PACKAGE_luci-app-ddnsto-zh-cn=y"
 	  "CONFIG_PACKAGE_luci-app-aurora-config=y"
 	#  "CONFIG_PACKAGE_luci-app-mini-diskmanager=y"
 )
