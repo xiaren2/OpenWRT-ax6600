@@ -50,7 +50,7 @@ UPDATE_PACKAGE() {
 #UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 #UPDATE_PACKAGE "openwrt-gecoosac" "lwb1978/openwrt-gecoosac" "main"
 UPDATE_PACKAGE "luci-app-homeproxy" "immortalwrt/homeproxy" "master"
-#UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
+UPDATE_PACKAGE "luci-app-ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
 UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
 
@@ -147,22 +147,7 @@ echo "CONFIG_PACKAGE_rtp2httpd=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-rtp2httpd=y" >> .config
 echo "✅ 已启用 rtp2httpd 流媒体转发服务器 (通过 package/ 方式集成，覆盖官方旧版)"
 
-##########################################
-# 添加 ddns-go (package 模式，强制覆盖官方旧版)
-##########################################
 
-# 1) 直接克隆到你指定的 package 目录（编译时会优先扫 package/）
-git clone --depth=1 \
-  https://github.com/sirpdboy/luci-app-ddns-go.git \
-  package/luci-app-ddns-go
-
-# 2) 如果后面还会执行 ./scripts/feeds install -a，先把官方 feeds 里的同名包清掉，防止被覆盖
-rm -rf feeds/luci/applications/luci-app-ddns-go
-
-# 3) 启用包
-#echo "CONFIG_PACKAGE_ddns-go=y" >> .config
-echo "CONFIG_PACKAGE_luci-app-ddns-go=y" >> .config
-echo "✅ 已启用ddns-go内网 (通过 package/ 方式集成，覆盖官方旧版)"
 
 # Add tailscale-community
 #git clone https://github.com/tokisaki-galaxy/luci-app-tailscale-community --branch=master --depth=1 /tmp/luci-app-tailscale-community
@@ -256,8 +241,8 @@ provided_config_lines=(
     "CONFIG_PACKAGE_ttyd=y"
   #  "CONFIG_PACKAGE_luci-app-homeproxy=y"
   #  "CONFIG_PACKAGE_luci-i18n-homeproxy-zh-cn=y"
-  #  "CONFIG_PACKAGE_luci-app-ddns-go=y"
-    #"CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
+    "CONFIG_PACKAGE_luci-app-ddns-go=y"
+    "CONFIG_PACKAGE_luci-i18n-ddns-go-zh-cn=y"
   #  "CONFIG_PACKAGE_luci-app-argon-config=y"
     "CONFIG_PACKAGE_luci-app-argon=n"
     "CONFIG_PACKAGE_nano=y"
