@@ -369,7 +369,7 @@ fi
 )
 
 [[ $WRT_CONFIG == "IPQ"* ]] && provided_config_lines+=(
-    "CONFIG_PACKAGE_sqm-scripts-nss=y"
+    #"CONFIG_PACKAGE_sqm-scripts-nss=y"
  #   "CONFIG_PACKAGE_luci-app-sqm=y"
   #  "CONFIG_PACKAGE_luci-i18n-sqm-zh-cn=y"
 )
