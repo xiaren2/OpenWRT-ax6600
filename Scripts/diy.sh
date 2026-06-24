@@ -363,7 +363,7 @@ fi
     "CONFIG_PACKAGE_luci-app-samba4=y"
     "CONFIG_PACKAGE_libicu=y"
     "CONFIG_PACKAGE_icu=y"
-  #  "CONFIG_PACKAGE_luci-app-openclash=y"
+    "CONFIG_PACKAGE_luci-app-openclash=y"
     #"CONFIG_PACKAGE_luci-app-quickfile=y"
     #"CONFIG_PACKAGE_quickfile=y"
 )
