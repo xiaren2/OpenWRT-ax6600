@@ -332,7 +332,7 @@ fi
  #   "CONFIG_PACKAGE_luci-i18n-openlist2-zh-cn=y"
     #"CONFIG_PACKAGE_fdisk=y"
     #"CONFIG_PACKAGE_parted=y"
-	"CONFIG_PACKAGE_luci-app-homeproxy=y"
+#	"CONFIG_PACKAGE_luci-app-homeproxy=y"
 #    "CONFIG_PACKAGE_luci-app-passwall=y"
 #    "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y"
     "CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=n"
