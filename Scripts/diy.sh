@@ -108,13 +108,12 @@ rm -rf package/emortal/luci-app-athena-led
 rm -rf package/emortal/athena-led
 
 #主支
-#git clone --depth=1 \
-#https://github.com/xiaren2/JDC-AX6600-Athena-LED-Controller.git \
-#package/_athena_tmp
+git clone --depth=1 \
 #test分支
-git clone --depth=1 -b test \
+#git clone --depth=1 -b test \
 https://github.com/xiaren2/JDC-AX6600-Athena-LED-Controller.git \
 package/_athena_tmp
+
 
 mv package/_athena_tmp/athena-led package/emortal/
 mv package/_athena_tmp/luci-app-athena-led package/emortal/
