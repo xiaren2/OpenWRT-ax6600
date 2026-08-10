@@ -107,7 +107,12 @@ echo "替换 emortal Athena LED"
 rm -rf package/emortal/luci-app-athena-led
 rm -rf package/emortal/athena-led
 
-git clone --depth=1 \
+#主支
+#git clone --depth=1 \
+#https://github.com/xiaren2/JDC-AX6600-Athena-LED-Controller.git \
+#package/_athena_tmp
+#test分支
+git clone --depth=1 -b test \
 https://github.com/xiaren2/JDC-AX6600-Athena-LED-Controller.git \
 package/_athena_tmp
 
