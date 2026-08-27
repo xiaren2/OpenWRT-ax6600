@@ -136,7 +136,9 @@ jobs:
           echo "WRT_CACHE_KEY=$WRT_CACHE_PREFIX-$WRT_HASH" >> $GITHUB_ENV
           echo "cache_key=$WRT_CACHE_PREFIX-$WRT_HASH" >> "$GITHUB_OUTPUT"
           echo "source_hash=$WRT_HASH" >> "$GITHUB_OUTPUT"
-
+          
+          #修改软件源为IPK（新增部分）
+          # sed -i 's/\.apk/\.ipk/g' feeds.conf.default
           # GitHub Action 移除国内下载源
           PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
           if [ -f "$PROJECT_MIRRORS_FILE" ]; then
