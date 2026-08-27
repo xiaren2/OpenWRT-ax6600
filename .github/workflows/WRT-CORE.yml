@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 VIKINGYFY
+
 #云编译公用核心
 name: WRT-CORE
 
@@ -88,7 +91,7 @@ jobs:
           sudo mkdir -p /mnt/build_wrt
           sudo chown $USER:$USER /mnt/build_wrt
           sudo ln -s /mnt/build_wrt $GITHUB_WORKSPACE/wrt
-        
+
       - name: Initialization Values
         id: initialize-values
         run: |
@@ -134,11 +137,7 @@ jobs:
           echo "cache_key=$WRT_CACHE_PREFIX-$WRT_HASH" >> "$GITHUB_OUTPUT"
           echo "source_hash=$WRT_HASH" >> "$GITHUB_OUTPUT"
 
-           #修改软件源为IPK（新增部分）
-          # sed -i 's/\.apk/\.ipk/g' feeds.conf.default
-          
-          #GitHub Action 移除国内下载源
-  
+          # GitHub Action 移除国内下载源
           PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
           if [ -f "$PROJECT_MIRRORS_FILE" ]; then
             sed -i '/.cn\//d; /tencent/d; /aliyun/d' "$PROJECT_MIRRORS_FILE"
@@ -178,7 +177,7 @@ jobs:
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-          
+
       - name: Custom Packages
         run: |
           cd ./wrt/package/
@@ -197,7 +196,6 @@ jobs:
           fi
 
           $GITHUB_WORKSPACE/Scripts/Settings.sh
-          $GITHUB_WORKSPACE/Scripts/diy.sh
 
           make defconfig -j$(nproc) && make clean -j$(nproc)
 
