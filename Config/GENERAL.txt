@@ -25,6 +25,7 @@ CONFIG_PACKAGE_luci-app-uhttpd=y
 #CONFIG_PACKAGE_luci-app-wifihistory=n
 CONFIG_PACKAGE_luci-app-wechatpush=y
 #CONFIG_PACKAGE_luci-app-netwiz=y
+CONFIG_PACKAGE_luci-app-router-role=y
 
 #额外去掉插件
 CONFIG_PACKAGE_mihomo=n
