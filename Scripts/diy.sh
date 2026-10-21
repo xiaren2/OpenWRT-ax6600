@@ -564,3 +564,10 @@ fi
   #      -e 's/^PKG_VERSION:=\(.*\)-r[0-9]\+$/PKG_VERSION:=\1/' \
   #      "$DDNSTO_MK"
 #fi
+# 临时修复：2026-10-19 上游把 libffi 从 packages feed 移入核心仓库，owrt 核心尚未同步
+if [ ! -f package/libs/libffi/Makefile ]; then
+  echo "补回缺失的 libffi 包"
+  mkdir -p package/libs/libffi
+  curl -fsSL "https://raw.githubusercontent.com/openwrt/openwrt/9b835ec6264f3364a22a9c67909f16bf5e5328d1/package/libs/libffi/Makefile" \
+    -o package/libs/libffi/Makefile
+fi
