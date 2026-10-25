@@ -53,7 +53,7 @@ UPDATE_PACKAGE() {
 UPDATE_PACKAGE "luci-app-ddns-go" "OldCoding/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-alist" "sbwml/luci-app-alist" "main"
 #UPDATE_PACKAGE "luci-app-openlist2" "sbwml/luci-app-openlist2" "main"
-UPDATE_PACKAGE "luci-app-vnt2" "whzhni1/luci-app-vnt2" "main"
+UPDATE_PACKAGE "luci-app-vnt2" "whzhni1/luci-app-vnt2" "main" "pkg"
 
 
 #small-package
