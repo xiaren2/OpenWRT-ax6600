@@ -70,7 +70,7 @@ UPDATE_PACKAGE "luci-app-ddns-go" "OldCoding/luci-app-ddns-go" "main"
 #UPDATE_PACKAGE "luci-app-onliner" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 UPDATE_PACKAGE "luci-app-onliner-overview" "https://github.com/xiaren2/luci-app-onliner-overview.git" "new"
 UPDATE_PACKAGE "luci-app-tcpdump-master" "https://github.com/xiaren2/luci.git" "main" "pkg"
-UPDATE_PACKAGE "luci-app-vnt2" "https://github.com/whzhni1/luci-app-vnt2.git" "main" "pkg"
+UPDATE_PACKAGE "luci-app-vnt" "https://github.com/whzhni1/luci-app-vnt2.git" "main" "pkg"
 #UPDATE_PACKAGE "ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 #UPDATE_PACKAGE "luci-app-ddnsto" "https://github.com/kiddin9/op-packages.git" "main" "pkg"
 #raurora配置
